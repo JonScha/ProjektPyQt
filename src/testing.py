@@ -1,5 +1,6 @@
 import sys
 from PySide6 import QtWidgets
+from DataSetFrame import DataSetFrame
 from Windows.specificClasses.sql.InputWindow import SQLInputWindow
 from Windows.baseClasses import BaseFunctionWindow
 
@@ -72,11 +73,13 @@ if __name__ == '__main__':
     # main_window = QtWidgets.QTabWidget()
     # login_window = BaseFunctionWindow(main_window, DatabaseConnector())
     # login_window.show()
-    main_window = BaseFunctionWindow(None, DatabaseConnector())
+    df = DataSetFrame()
+    main_window = BaseFunctionWindow(None, df)
     main_window.add_button("exit", main_window._set_parameters())
     main_window.add_boolean_dropdown("boolean_drop")
-    main_window.add_entry("entry_param")
+    main_window.add_entry("entry_param", "hello there")
     main_window._add_button()
+    main_window.set_function(sys.exit)
     main_window.show()
 
     print(main_window.get_parameters())

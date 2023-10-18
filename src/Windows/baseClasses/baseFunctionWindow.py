@@ -20,7 +20,7 @@ class BaseFunctionWindow(QtWidgets.QWidget):
         self.row = 0
         self.column = 0
         self.parameter_names = []
-        self.widget_list = []
+        self.widget_list : list[QtWidgets.QLineEdit | QtWidgets.QComboBox] = []
         self.non_callable_widget_list = []
         self.parameters = {}
 
@@ -66,7 +66,11 @@ class BaseFunctionWindow(QtWidgets.QWidget):
 
     def _set_parameters(self):
         for name, widget in zip(self.parameter_names, self.widget_list):
-            tmp : QtWidgets.QComboBox = widget.currentText()
+
+            if type(widget) == QtWidgets.QComboBox:
+                tmp : QtWidgets.QComboBox = widget.currentText()
+            else:
+                tmp : QtWidgets.QLineEdit = widget.text()
             if tmp.isdigit():
                 self.parameters[name] = int(tmp)
             elif tmp == "False":
@@ -77,6 +81,9 @@ class BaseFunctionWindow(QtWidgets.QWidget):
                 self.parameters[name] = None
             else:
                 self.parameters[name] = tmp
+
+
+            print(self.parameters)
 
     def get_parameters(self):
         return self.parameters
