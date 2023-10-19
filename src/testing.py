@@ -1,6 +1,6 @@
 import sys
 from PySide6 import QtWidgets
-from DataSetFrame import DataSetFrame
+from baseClasses import DataSetFrame
 from Windows.specificClasses.sql.InputWindow import SQLInputWindow
 from Windows.baseClasses import BaseFunctionWindow
 

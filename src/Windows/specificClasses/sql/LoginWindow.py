@@ -38,6 +38,7 @@ class LoginWindow(QtWidgets.QWidget):
         self.button.clicked.connect(self.__button_function)
 
         layout = QtWidgets.QVBoxLayout()
+        
         layout.addWidget(self.ip_address_entry)
         layout.addWidget(self.user_name_entry)
         layout.addWidget(self.password_entry)
