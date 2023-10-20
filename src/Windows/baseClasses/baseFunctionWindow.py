@@ -1,5 +1,5 @@
 from PySide6 import QtWidgets, QtGui
-from PySide6.QtWidgets import QVBoxLayout, QSpacerItem, QSizePolicy
+from PySide6.QtWidgets import QVBoxLayout, QSpacerItem, QSizePolicy, QGridLayout
 from PySide6.QtCore import Qt
 from .resultWindow import ResultWindow
 import inspect
@@ -16,7 +16,7 @@ class BaseFunctionWindow(QtWidgets.QWidget):
         self.result = None
         self.result_names = None
         self.num_rows = 3
-        self.num_columns = 3
+        self.num_columns = 4
         self.row = 0
         self.column = 0
         self.parameter_names = []
@@ -27,42 +27,73 @@ class BaseFunctionWindow(QtWidgets.QWidget):
         self.setWindowTitle("Base Function Window")
         self.setGeometry(100, 100, width, height)
 
-        layout = QVBoxLayout(self)
+        #layout = QVBoxLayout(self)
+        layout = QGridLayout(self)
+        self.setLayout(layout)
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
-        layout.addStretch(1)
+        #layout.addStretch(1)
 
+    def __check_row_columns_wrapper(f):
+        def wrapper(*args):
+
+            
+            #arg_self : type(self) = getattr(self, f)
+            arg_self : BaseFunctionWindow = args[0]
+            column = arg_self.column
+            num_columns = arg_self.num_columns
+            print(arg_self)
+            if column % num_columns == 0:
+                arg_self.row += 1
+                arg_self.column = 0
+
+
+            ret  = f(*args)
+
+            arg_self.column += 1
+            
+            return ret
+        return wrapper
+
+
+
+    @__check_row_columns_wrapper
     def add_entry(self, parameter_name, tooltip_text=None):
         self.parameter_names.append(parameter_name)
-
         entry = QtWidgets.QLineEdit(self)
         entry.setPlaceholderText(parameter_name)
-        self.layout().addWidget(entry)
+        self.layout().addWidget(entry,self.row,self.column )
+
         if tooltip_text is not None:
             entry.setToolTip(tooltip_text)
 
         self.widget_list.append(entry)
 
+        
+    @__check_row_columns_wrapper
     def add_dropdown(self, parameter_name, values, tooltip_text=None):
         self.parameter_names.append(parameter_name)
 
         dropdown = QtWidgets.QComboBox(self)
         dropdown.addItems(values)
-        self.layout().addWidget(dropdown)
+        self.layout().addWidget(dropdown, self.row, self.column )
         if tooltip_text is not None:
             dropdown.setToolTip(tooltip_text)
 
         self.widget_list.append(dropdown)
+        
 
+    @__check_row_columns_wrapper
     def add_boolean_dropdown(self, parameter_name, tooltip_text=None):
         self.parameter_names.append(parameter_name)
 
         dropdown = QtWidgets.QComboBox(self)
         dropdown.addItems(["True", "False"])
-        self.layout().addWidget(dropdown)
+        self.layout().addWidget(dropdown, self.row,self.column )
         if tooltip_text is not None:
             dropdown.setToolTip(tooltip_text)
 
         self.widget_list.append(dropdown)
+
 
     def _set_parameters(self):
         for name, widget in zip(self.parameter_names, self.widget_list):

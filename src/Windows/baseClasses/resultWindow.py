@@ -17,6 +17,7 @@ class ResultWindow(QtWidgets.QWidget):
         self.setGeometry(100, 100, width, height)
 
         layout = QtWidgets.QVBoxLayout(self)
+        #layout = QtWidgets.QGridLayout(self)
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         layout.addStretch(1)
 
