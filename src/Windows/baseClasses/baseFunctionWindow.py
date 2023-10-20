@@ -111,18 +111,18 @@ class BaseFunctionWindow(QtWidgets.QWidget):
     def _set_parameters(self):
         for name, widget in zip(self.parameter_names, self.widget_list):
 
+            tmp : str = ""
+
             if type(widget) == QtWidgets.QComboBox:
-                tmp : QtWidgets.QComboBox = widget.currentText()
+                tmp  = widget.currentText()
             else:
-                tmp : QtWidgets.QLineEdit = widget.text()
+                tmp  = widget.text()
             if tmp.isdigit():
                 self.parameters[name] = int(tmp)
             elif tmp == "False":
                 self.parameters[name] = False
             elif tmp == "True":
                 self.parameters[name] = True
-            elif not tmp:
-                self.parameters[name] = None
             else:
                 self.parameters[name] = tmp
 
