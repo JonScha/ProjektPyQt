@@ -73,20 +73,26 @@ if __name__ == '__main__':
     # main_window = QtWidgets.QTabWidget()
     # login_window = BaseFunctionWindow(main_window, DatabaseConnector())
     # login_window.show()
+
+
+    def test_func(x, a, b):
+
+        if a:
+            return 10, 20
+        elif b:
+            return 200,65
+        else:
+            return 5,20
+
+
     df = DataSetFrame()
     main_window = BaseFunctionWindow(None, df)
-    # main_window.add_button("exit", main_window._set_parameters())
-    # main_window.add_boolean_dropdown("boolean_drop")
-    # main_window.add_boolean_dropdown("boolean_drop")
-    main_window.add_boolean_dropdown("boolean_drop")
-    main_window.add_boolean_dropdown("boolean_drop")
-    main_window.add_boolean_dropdown("boolean_drop")
-    # main_window.add_entry("entry_param", "hello there")
-    # main_window.add_entry("entry_param", "hello there")
-    # main_window.add_entry("entry_param", "hello there")
-    # main_window.add_entry("entry_param", "hello there")
+    main_window.add_boolean_dropdown("a")
+    main_window.add_boolean_dropdown("b")
+    
     main_window.add_function_button()
-    main_window.set_function(sys.exit)
+    main_window.set_function(test_func)
+    main_window.set_result_names(["1", "2"])
     main_window.show()
     print(main_window.get_parameters())
   

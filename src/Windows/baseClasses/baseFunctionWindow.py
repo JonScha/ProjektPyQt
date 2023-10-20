@@ -7,7 +7,7 @@ from typing import Callable
 import inspect
 
 class BaseFunctionWindow(QtWidgets.QWidget):
-    def __init__(self, main_window, main_data_set, has_2_datasets=False, width=800, height=550):
+    def __init__(self, main_window, main_data_set, has_2_datasets=False, width=700, height=550):
         super().__init__()
         self.main_window = main_window
         self.main_data_set : DataSetFrame = main_data_set
@@ -88,26 +88,10 @@ class BaseFunctionWindow(QtWidgets.QWidget):
 
         self.widget_list.append(dropdown)
         
-
-    # @__check_row_columns_wrapper
-    # def add_boolean_dropdown(self, parameter_name, tooltip_text=None):
-    #     self.parameter_names.append(parameter_name)
-
-    #     dropdown = QtWidgets.QComboBox(self)
-    #     dropdown.addItems(["True", "False"])
-    #     self.layout().addWidget(dropdown, self.row,self.column)
-
-    #     if tooltip_text is not None:
-    #         dropdown.setToolTip(tooltip_text)
-
-    #     self.widget_list.append(dropdown)
-
     @__check_row_columns_wrapper
     def add_boolean_dropdown(self, parameter_name, tooltip_text = None):
         self.add_dropdown(parameter_name, ["True", "False"], tooltip_text)
   
-
-
     def _set_parameters(self):
         for name, widget in zip(self.parameter_names, self.widget_list):
 
@@ -125,7 +109,6 @@ class BaseFunctionWindow(QtWidgets.QWidget):
                 self.parameters[name] = True
             else:
                 self.parameters[name] = tmp
-
 
             print(self.parameters)
 
@@ -174,7 +157,9 @@ class BaseFunctionWindow(QtWidgets.QWidget):
         self.show_result_window()
 
     def show_result_window(self):
-        win = ResultWindow(self, results=self.result, results_names=self.result_names)
+        self.win = ResultWindow(self, results=self.result, results_names=self.result_names)
+        self.win.show()
+
 
     def set_result_names(self, names):
         self.result_names = names
