@@ -1,5 +1,6 @@
 from PySide6 import QtWidgets, QtGui
 from PySide6.QtWidgets import QVBoxLayout, QSpacerItem, QSizePolicy, QGridLayout, QLabel
+from PySide6.QtGui import QAction
 from PySide6.QtCore import Qt
 from .resultWindow import ResultWindow
 from baseClasses import DataSetFrame
@@ -26,16 +27,26 @@ class BaseFunctionWindow(QtWidgets.QWidget):
         self.non_callable_widget_list = []
         self.parameters = {}
 
+       
         self.setWindowTitle("Base Function Window")
         self.setGeometry(100, 100, width, height)
 
         layout = QGridLayout(self)
         layout.setHorizontalSpacing(20)
         layout.setVerticalSpacing(20)
-
+        
+        self.__center()
         self.setLayout(layout)
+        self.setMaximumSize(self.width, self.height)
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
 
+
+    def __center(self):
+        qr = self.frameGeometry()
+        cp = self.screen().availableGeometry().center()
+
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
 
     def __check_row_columns_wrapper(f):
         def wrapper(*args):

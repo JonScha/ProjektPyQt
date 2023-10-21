@@ -3,6 +3,9 @@ from PySide6 import QtWidgets
 from baseClasses import DataSetFrame
 from Windows.specificClasses.sql.InputWindow import SQLInputWindow
 from Windows.baseClasses import BaseFunctionWindow
+from Menus import BaseMenu
+import pandas as pd
+from main import MainWindow
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
@@ -85,16 +88,24 @@ if __name__ == '__main__':
             return 5,20
 
 
-    df = DataSetFrame()
-    main_window = BaseFunctionWindow(None, df)
-    main_window.add_boolean_dropdown("a")
-    main_window.add_boolean_dropdown("b")
+    df = DataSetFrame()#
+    data = pd.DataFrame(["a","b", "c"])
+    df.set_main_frame(data)
+
+    main_window = MainWindow()
+    menus = BaseMenu(main_window)
+   
+    file_menu = menus.add_main_menu("File")
+    #sub = menus.add_sub_menu("hello file",file_menu)
+    menus.add_action_to_sub_menu("Hallo!" , lambda : print(df.get_numpy_array()))
+    # main_window.add_boolean_dropdown("a")
+    # main_window.add_boolean_dropdown("b")
     
-    main_window.add_function_button()
-    main_window.set_function(test_func)
-    main_window.set_result_names(["1", "2"])
+    # main_window.add_function_button()
+    # main_window.set_function(test_func)
+    # main_window.set_result_names(["1", "2"])
     main_window.show()
-    print(main_window.get_parameters())
-  
+    # print(main_window.get_parameters())
+    
 
     sys.exit(app.exec())

@@ -2,7 +2,7 @@ from PySide6 import QtWidgets
 from PySide6.QtCore import Qt
 
 class ResultWindow(QtWidgets.QWidget):
-    def __init__(self, main_window, results, results_names=None, width=800, height=550):
+    def __init__(self, main_window, results, results_names=None, width=400, height=500):
         super().__init__()
         self.main_window = main_window
         self.results = results
@@ -21,8 +21,9 @@ class ResultWindow(QtWidgets.QWidget):
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         layout.addStretch(1)
 
+        self.setMaximumSize(self.width, self.height)
         self.create_labels()
-
+        self.__center()
         self.add_button()
 
     def create_labels(self):
@@ -63,6 +64,13 @@ class ResultWindow(QtWidgets.QWidget):
         button = QtWidgets.QPushButton("OK", self)
         button.clicked.connect(self.button_fun)
         self.layout().addWidget(button)
+
+    def __center(self):
+        qr = self.frameGeometry()
+        cp = self.screen().availableGeometry().center()
+
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
 
     def button_fun(self):
         self.close()
