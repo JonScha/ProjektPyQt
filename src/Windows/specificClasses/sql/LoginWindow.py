@@ -47,25 +47,29 @@ class LoginWindow(QtWidgets.QWidget):
         self.setLayout(layout)
 
     def __button_function(self):
-        self.ip_address = self.ip_address_entry.text()
+        self.ip_address : QtWidgets.QLineEdit = self.ip_address_entry.text()
         self.user_name = self.user_name_entry.text()
         self.password = self.password_entry.text()
         self.database = self.database_entry.text()
 
         self.__login_to_database()
 
+        self.close()
+
     def get_root(self):
         return self
 
     def __get_login_data(self):
-        return self.ip_address, self.user_name, self.password, self.database
+        return self.ip_address,self.database ,self.user_name, self.password
 
     def __login_to_database(self):
-        ip, name, pw, table = self.__get_login_data()
+        ip, db_name, user_name, password = self.__get_login_data()
 
-        if any(value != "" for value in [ip, name, pw, table]):
+        if any(value != "" for value in [ip, db_name, user_name, password]):
             try:
-                self.main_data_base_connector.connect(ip, name, pw, table)
+                self.main_data_base_connector.connect(ip, db_name, user_name, password)
                 print("Connection successful!!!!!")
-            except:
+            except BaseException as e:
                 print("Fehler!!!!!")
+
+                print(str(e))
