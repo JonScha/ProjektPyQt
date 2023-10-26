@@ -3,6 +3,7 @@ import numpy as np
 from typing import Tuple, List, Any
 import os
 from sklearn.preprocessing import binarize
+from PySide6.QtWidgets import QFileDialog
 class DataSetFrame:
     """
         Main class to work with datasets fetched from SQL Databases
@@ -83,6 +84,9 @@ class DataSetFrame:
 
     def set_main_frame(self, data_frame : pd.DataFrame):
         self.main_frame = data_frame
+
+    def get_main_frame(self):
+        return self.main_frame
   
     def get_raw_data_split(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
         """
@@ -194,17 +198,32 @@ class DataSetFrame:
 
         self.main_frame[column] = binarize(self.main_frame[column], threshold, copy=False)
 
+    def import_file(self, file_path):
+        """
+            Use this method to import csv or excel data
+        """
+        # filename, ending = os.path.splitext(file_path)
+        path, _ = QFileDialog.getOpenFileName()
+        filename, ending = os.path.splitext(path)
+        if ending == ".csv":
+            self.import_csv(path)
+        elif ending == ".xlsx":
+            self.import_excel(path)
+        else:
+            raise ValueError(f"given file type \"{ending}\" not supported!")
 
 
 
-df = DataSetFrame()
-df.import_csv("I:/ProjektPyQt/src/TestDateien/data.csv")
 
 
-df.mark_x_data(["x"])
-df.mark_y_data(["y"])
+# df = DataSetFrame()
+# df.import_csv("I:/ProjektPyQt/src/TestDateien/data.csv")
 
 
-print(df.get_x_value())
-print("\n")
-print(df.get_y_value())
+# df.mark_x_data(["x"])
+# df.mark_y_data(["y"])
+
+
+# print(df.get_x_value())
+# print("\n")
+# print(df.get_y_value())
