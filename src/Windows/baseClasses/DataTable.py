@@ -1,50 +1,98 @@
-import sys
-import pandas as pd
-from PySide6.QtWidgets import QApplication, QMainWindow, QTableView, QVBoxLayout, QWidget
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QStandardItemModel, QStandardItem
+from PySide6.QtWidgets import QTableView, QMainWindow, QApplication, QPushButton, QVBoxLayout, QWidget
+from PySide6.QtCore import Qt, QAbstractTableModel
 from typing import TYPE_CHECKING
+import pandas as pd
 
-if TYPE_CHECKING:
-    from baseClasses import DataSetFrame
 
-class DataFrameViewer(QWidget):
-    def __init__(self, data_frame : "DataSetFrame"):
+from baseClasses.dataSetFrame import DataSetFrame
+
+class DataFrameTableView(QTableView):
+    def __init__(self, main_frame : DataSetFrame):
         super().__init__()
-        self.data : pd.DataFrame = data_frame.get_main_frame()
-        self.initUI()
+        self.main_set = main_frame
+        self.df = main_frame.get_main_frame()
+        self.setModel(self.createTableModel(self.main_set))
+        self.setSortingEnabled(True)
+    
+    def createTableModel(self, df):
+        model = DataFrameTableModel(df)
+        return model
+    
+    def updateTable(self):
+        self.df = self.main_set.get_main_frame()
+        self.model().updateData(self.df)
 
-    def initUI(self):
-        self.layout = QVBoxLayout()
-        self.setLayout(self.layout)
-
-        self.model = QStandardItemModel(self)
-        self.tableView = QTableView(self)
-        self.tableView.setModel(self.model)
-
-        for row in range(self.data.shape[0]):
-            items = [QStandardItem(str(self.data.iat[row, col])) for col in range(self.data.shape[1])]
-            self.model.appendRow(items)
-
-        self.layout.addWidget(self.tableView)
-
-class MainWindow(QMainWindow):
-    def __init__(self):
+class DataFrameTableModel(QAbstractTableModel):
+    def __init__(self, df : "DataSetFrame"):
         super().__init__()
-        self.initUI()
+        self.dataFrame = df.get_main_frame()
 
-    def initUI(self):
-        self.setWindowTitle("Pandas DataFrame Viewer")
-        self.setGeometry(100, 100, 800, 600)
+    def rowCount(self, parent=None):
+        return len(self.dataFrame)
 
-        data = pd.DataFrame({'A': [1, 2, 3, 4],
-                             'B': [5, 6, 7, 8]})
-        
-        data_viewer = DataFrameViewer(data)
-        self.setCentralWidget(data_viewer)
+    def columnCount(self, parent=None):
+        return len(self.dataFrame.columns)
+
+    def data(self, index, role):
+        if role == Qt.DisplayRole:
+            return str(self.dataFrame.iloc[index.row(), index.column()])
+        return None  # Returning Python object directly
+
+    def headerData(self, section, orientation, role):
+        if role == Qt.DisplayRole:
+            if orientation == Qt.Horizontal:
+                return str(self.dataFrame.columns[section])
+            if orientation == Qt.Vertical:
+                return str(self.dataFrame.index[section])
+        return None  # Returning Python object directly
+    def updateData(self, new_df):
+        self.beginResetModel()
+        self.dataFrame = new_df
+        self.endResetModel()
+
+def update_data():
+    # Hier könnten Sie Ihren DataFrame aktualisieren
+    # Zum Beispiel: df = pd.read_csv('neue_daten.csv')
+    # Hier verwenden wir ein Beispiel für die Aktualisierung der Daten
+    data = {
+        'Name': ['Eve', 'Frank'],
+        'Alter': [28, 45],
+        'Stadt': ['Hannover', 'Stuttgart']
+    }
+    df = pd.DataFrame(data)
+    table_view.df = df
+    table_view.updateTable()
+
 
 if __name__ == "__main__":
+    import sys
     app = QApplication(sys.argv)
-    main_window = MainWindow()
+    main_window = QMainWindow()
+    main_window.setGeometry(100, 100, 800, 600)
+    main_window.setWindowTitle('Tabellendarstellung mit PySide6')
+
+    # Daten aus einem DataFrame erstellen (Beispiel)
+    data = {
+        'Name': ['Alice', 'Bob', 'Charlie', 'David'],
+        'Alter': [25, 30, 35, 40],
+        'Stadt': ['Berlin', 'Hamburg', 'München', 'Köln']
+    }
+    df = DataSetFrame()
+    df.set_main_frame(data)
+
+    table_view = DataFrameTableView(df)
+    main_window.setCentralWidget(table_view)
+
+    update_button = QPushButton("Daten aktualisieren")
+    update_button.clicked.connect(update_data)
+
+    widget = QWidget()
+    layout = QVBoxLayout()
+    layout.addWidget(table_view)
+    layout.addWidget(update_button)
+    widget.setLayout(layout)
+
+    main_window.setCentralWidget(widget)
+
     main_window.show()
     sys.exit(app.exec_())

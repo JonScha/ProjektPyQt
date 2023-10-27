@@ -1,15 +1,15 @@
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QMenu, QMenuBar, QWidgetAction
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QMenu, QMenuBar, QWidgetAction, QTableView
 from PySide6.QtGui import QAction
 from Menus import BaseMenu, FileMenu
 from Windows.specificClasses.sql import LoginWindow
-from Windows.baseClasses import DataFrameViewer
+from Windows.baseClasses import DataFrameTableView
 from baseClasses import DatabaseConnector
 # from Menus.specificMenus import FileMenu
 # from DataBaseWindows.LoginWindow import Login_Window
 # from DataSetWindows.DataMarkWindow import DataMarkWindow
 # from CustomGUIWidgets import customTreeView, DataTable, SQLMenu, FileMenu, DSMenu
-# from dataScienceWindows.baseClasses import DataSetFrame
+from baseClasses import DataSetFrame
 # from dataScienceWindows.specificClasses.WindowClasses import normTestWindow, tTestWindow, chiQuadratTestWindow, coeffMatrix
 
 class MainWindow(QMainWindow):
@@ -26,17 +26,20 @@ class MainWindow(QMainWindow):
         self.grid_layout = QGridLayout()
         self.central_widget.setLayout(self.grid_layout)
         self.database_conn = DatabaseConnector()
-        self.file_menu = FileMenu(self)
+        
 
-        self.login_window = None
-
+        self.data_frame = DataSetFrame()
+        
         # To-Do
-        data_viewer = DataFrameViewer(self.data)
-        self.setCentralWidget(data_viewer)
-
+        self.data_viewer = DataFrameTableView(self.data_frame)
+        #self.data_viewer = QTableView(self)
+        self.file_menu = FileMenu(self)
+        self.setCentralWidget(self.data_viewer)
+        
         self.setGeometry(20, 30, self.width, self.height)
         self.__center()
-
+        #
+        self.login_window = None
         
 
     def __center(self):
