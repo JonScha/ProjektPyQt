@@ -14,7 +14,6 @@ class SQLInputWindow(QtWidgets.QWidget):
         self._create_text_input()
 
         layout = QtWidgets.QVBoxLayout()
-        #layout = QtWidgets.QGridLayout()
         layout.addWidget(self.sql_text)
         layout.addWidget(self.button)
         self.setLayout(layout)
