@@ -62,6 +62,7 @@ class MainWindow(QMainWindow):
             
     def show_coeffs(self):
        heatmap(self.data_frame.calc_coeff_matrix())
+       plt.show()
        
 
 
