@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QTableView, QMainWindow, QApplication, QPushButton, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QTableView, QMainWindow, QApplication, QPushButton, QVBoxLayout, QWidget, QHeaderView
 from PySide6.QtCore import Qt, QAbstractTableModel
 from typing import TYPE_CHECKING
 import pandas as pd
@@ -13,7 +13,9 @@ class DataFrameTableView(QTableView):
         self.df = main_frame.get_main_frame()
         self.setModel(self.createTableModel(self.main_set))
         self.setSortingEnabled(True)
-    
+        
+        self.__stretch_table_view()
+        
     def createTableModel(self, df):
         model = DataFrameTableModel(df)
         return model
@@ -21,6 +23,16 @@ class DataFrameTableView(QTableView):
     def updateTable(self):
         self.df = self.main_set.get_main_frame()
         self.model().updateData(self.df)
+        self.__stretch_table_view()
+
+    def __stretch_table_view(self):
+
+        headers = self.horizontalHeader()
+        num_columns = len(self.main_set.get_column_names())
+        for i in range(num_columns):
+            headers.setSectionResizeMode(i, QHeaderView.ResizeMode.Stretch)
+
+
 
 class DataFrameTableModel(QAbstractTableModel):
     def __init__(self, df : "DataSetFrame"):
@@ -91,7 +103,6 @@ if __name__ == "__main__":
     layout.addWidget(table_view)
     layout.addWidget(update_button)
     widget.setLayout(layout)
-
     main_window.setCentralWidget(widget)
 
     main_window.show()

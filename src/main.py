@@ -18,20 +18,20 @@ class MainWindow(QMainWindow):
         self.height = 650
         self.setWindowTitle("Ihr Hauptfenster")
 
-        self.central_widget = QWidget()
-        self.setCentralWidget(self.central_widget)
+        # self.central_widget = QWidget()
+        # self.setCentralWidget(self.central_widget)
 
         self.grid_layout = QGridLayout()
-        self.central_widget.setLayout(self.grid_layout)
+        #self.central_widget.setLayout(self.grid_layout)
         self.database_conn = DatabaseConnector()
         
-
         self.data_frame = DataSetFrame()
         
         # To-Do
         self.data_viewer = DataFrameTableView(self.data_frame)
         self.file_menu = FileMenu(self)
         self.setCentralWidget(self.data_viewer)
+        self.layout().setContentsMargins(0,0,0,0)
 
 
         self.sql_menu = SQLMenu(self)
