@@ -33,8 +33,12 @@ if __name__ == "__main__":
     df = pd.DataFrame(data)
     df2 = DataSetFrame()
     df2.set_main_frame(df)
+    
     table_view = DataFrameTableView(df2)
+    # table_view.change_color(1,1, "red")
     main_window.setCentralWidget(table_view)
+    
+    table_view.setCellBackgroundColor(1,1, "#FF0000")
 
     update_button = QPushButton("Daten aktualisieren")
     update_button.clicked.connect(update_data)
@@ -43,9 +47,9 @@ if __name__ == "__main__":
     layout = QVBoxLayout()
     layout.addWidget(table_view)
     layout.addWidget(update_button)
+    
     widget.setLayout(layout)
-
     main_window.setCentralWidget(widget)
 
     main_window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
