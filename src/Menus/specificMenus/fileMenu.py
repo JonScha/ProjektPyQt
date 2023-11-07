@@ -27,7 +27,6 @@ class FileMenu():
         act = QAction("import file", self.main_window)
         act.triggered.connect(lambda :self.main_frame.import_file("I:/ProjektPyQt/src/TestDateien/data.csv"))
         act.triggered.connect(self.__update_table)
-        act.triggered.connect(lambda : print(self.main_frame.get_numpy_array()))
         self.sub1.addAction(act)
 
     def __update_table(self):

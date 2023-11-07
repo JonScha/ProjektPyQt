@@ -3,7 +3,6 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWid
 from PySide6.QtGui import QColor, QBrush
 from typing import TYPE_CHECKING
 import pandas as pd
-#from main import MainWindow
 
 if TYPE_CHECKING:
     from main import MainWindow
