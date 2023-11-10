@@ -30,7 +30,6 @@ class FileMenu():
         self.sub1.addAction(act)
 
     def __update_table(self):
-
         self.data_viewer.update()
-        print("Hallo")
+        self.data_viewer.set_width_columns()
 

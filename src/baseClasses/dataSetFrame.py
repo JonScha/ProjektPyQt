@@ -70,6 +70,13 @@ class DataSetFrame:
         """
         self.main_frame = self.main_frame.dropna(0)
 
+
+    def mark_as_x_column(self, column_idx : int):
+        self.x_marked.append(self.get_column_name_by_idx(column_idx))
+    
+    def mark_as_y_column(self, column_idx : int):
+        self.y_marked.append(self.get_column_name_by_idx(column_idx))
+
     def mark_x_data(self, list_of_x_values : List[str] ) -> None:
         """
             marks all columns as input for the NN
