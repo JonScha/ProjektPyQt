@@ -17,9 +17,13 @@ class DataFrameTable(QTableWidget):
         self.setRowCount(self.main_frame.shape[0])
         self.setColumnCount(self.main_frame.shape[1])
         self.set_width_columns()
+        self.current_column = 1
+        self.context_menu = QMenu(self)
+        self.name_action_list : list = []
+        self.menu_check = False
+        self.__add_context_action("hello", [ lambda col : self.set_column_background_color(col, "red")])
 
-        self.name_action_dict_column : dict = {}
-
+        # Sets first init dataFrame
         for row in range(self.main_frame.shape[0]):
             for col in range(self.main_frame.shape[1]):
                 item = QTableWidgetItem(str(self.main_frame.iat[row, col]))
@@ -32,15 +36,12 @@ class DataFrameTable(QTableWidget):
             item.setBackground(brush)
 
     def set_column_background_color(self, col, color):
-
         for row in range(self.main_frame.shape[0]):
             item = self.item(row, col)
-
             brush = QBrush(QColor(color))
             item.setBackground(brush)
 
     def set_width_columns(self):
-
         for col in range(self.main_frame.shape[1]):
             self.setColumnWidth(col, 200)
 
@@ -58,32 +59,27 @@ class DataFrameTable(QTableWidget):
                 self.setItem(row, col, item)
 
 
-    def __add_context_action(self, context_menu : QMenu, action  : Callable, name : str):
-        act = QAction(name, self)
-        context_menu.addAction(act)
+    def __add_context_action(self, name : str, functions : list[Callable]):
+            self.name_action_list.append(functions)
+            act = QAction(name, self)
+            self.context_menu.addAction(act)
 
-    # overwritten-fuction fromn QTabelWidget
+    # overwritten-fuction from QTableWidget
     def contextMenuEvent(self, event : QMouseEvent) -> None:
-        context_menu = QMenu(self)
-    
-        normalize_action = QAction("normalize column", self)
-        context_menu.addAction(normalize_action)
-        #add_action("normalize column",self.main_data_set_frame.normalize_column(current_column), self.update())
         coordinates : QPoint = event.pos()
         x, y = coordinates.toTuple()
-        context_menu.exec(self.mapToGlobal(event.pos()))
-        current_column = self.columnAt(x)
+        self.current_column = self.columnAt(x)
 
+        if not self.menu_check:
+            for i, action in enumerate(self.context_menu.actions()):
+                for func in self.name_action_list[i]:
+                    action.triggered.connect(lambda : func(self.current_column))
+            self.menu_check = True
         
-        normalize_action.triggered.connect(self.main_data_set_frame.normalize_column(current_column))
-        normalize_action.triggered.connect(self.update())
+        self.context_menu.exec(self.mapToGlobal(event.pos()))
+        self.current_column = self.columnAt(x)
 
-        # if action == normalize_action:
-        #     self.main_data_set_frame.normalize_column(current_column)
-        #     self.update()
-        
-    
-        
+      
 
 
 

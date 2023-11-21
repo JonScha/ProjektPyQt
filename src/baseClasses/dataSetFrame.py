@@ -216,6 +216,9 @@ class DataSetFrame:
             self.import_csv(path)
         elif ending == ".xlsx":
             self.import_excel(path)
+        # empty filepath
+        elif ending == "":
+            return
         else:
             raise ValueError(f"given file type \"{ending}\" not supported!")
 

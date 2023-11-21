@@ -1,14 +1,12 @@
 import sys
 import matplotlib.pyplot as plt
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QMenu, QMenuBar, QWidgetAction, QTableView
-from PySide6.QtGui import QAction
+from PySide6.QtWidgets import QApplication, QMainWindow, QGridLayout
 from Menus.specificMenus import FileMenu, SQLMenu, DataScienceMenu
 from Windows.specificClasses.sql import LoginWindow, SQLInputWindow
 from Windows.specificClasses.data import DataFrameTable
 from baseClasses import DatabaseConnector
 from seaborn import heatmap
 import pandas as pd
-import seaborn as sb
 from baseClasses import DataSetFrame
 
 class MainWindow(QMainWindow):
@@ -63,7 +61,8 @@ class MainWindow(QMainWindow):
     def show_coeffs(self):
        heatmap(self.data_frame.calc_coeff_matrix())
        plt.show()
-       
+
+
 
 
 if __name__ == "__main__":
