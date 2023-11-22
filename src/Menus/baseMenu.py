@@ -6,15 +6,13 @@ from typing import Callable, TYPE_CHECKING
 if TYPE_CHECKING:
     from main import MainWindow
 
-class BaseMenu:
+class BaseMenu(QMenu):
     def __init__(self, main_window : "MainWindow", menu_title : str):
+        super().__init__(main_window)
         self.main_window : "MainWindow" = main_window
         self.main_window.show_login_window()
         # returns the menuBar from the MainWindow
         self.menubar : QMenuBar = self.main_window.menuBar()
-
-        self.main_window.setMenuBar(self.menubar)
-
         self.menu : QMenu = self.menubar.addMenu(menu_title)
 
     def add_sub_menu(self, menu_title : str) -> QMenu:
@@ -28,9 +26,8 @@ class BaseMenu:
         act.triggered.connect(function)
         self.menu.addAction(act)
 
-    # def add_action_to_main_menu(self, name :str, function : Callable):
-        
-    #     act = QAction(name, self.main_window)
-    #     act.triggered.connect(function)
-    #     self.menu.addAction(act)
+    def add_action_to_main_menu(self, name : str, function : Callable):
 
+        act = QAction(name, self.main_window)
+        act.triggered.connect(function)
+        self.menu.addAction(act)
