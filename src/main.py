@@ -38,7 +38,6 @@ class MainWindow(QMainWindow):
         
         self.setGeometry(20, 30, self.width, self.height)
         self.__center()
-        #
         self.login_window = None
         self.input_window = None
         

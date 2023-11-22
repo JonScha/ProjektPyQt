@@ -205,7 +205,7 @@ class DataSetFrame:
 
         self.main_frame[column] = binarize(self.main_frame[column], threshold, copy=False)
 
-    def import_file(self, file_path):
+    def import_file(self):
         """
             Use this method to import csv or excel data
         """
