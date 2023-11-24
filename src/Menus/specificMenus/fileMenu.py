@@ -14,8 +14,5 @@ class FileMenu(BaseMenu):
         self.main_window = main_window
         self.main_frame = self.main_window.data_frame
         self.data_viewer = self.main_window.data_viewer
-        #self.menu : QMenu = self.add_sub_menu("import")
-
-        self.add_sub_menu("import")
-
-        self.add_action_to_main_menu("hey", lambda : print("hello world!"))
+        
+        self.add_action_to_main_menu("import",lambda:  (self.main_frame.import_file(), self.data_viewer.update()))
