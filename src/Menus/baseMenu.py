@@ -20,11 +20,11 @@ class BaseMenu(QMenu):
         menu = self.menu.addMenu(menu_title) 
         return menu     
     
-    def add_action_to_sub_menu(self, name : str,  function : Callable):
+    def add_action_to_sub_menu(self,menu : QMenu, name : str,  function : Callable):
 
         act = QAction(name, self.main_window)
         act.triggered.connect(function)
-        self.menu.addAction(act)
+        menu.addAction(act)
 
     def add_action_to_main_menu(self, name : str, function : Callable):
 

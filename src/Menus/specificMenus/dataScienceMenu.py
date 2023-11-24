@@ -19,4 +19,4 @@ class DataScienceMenu():
         self.data_viewer = main_window.data_viewer
         self.data_conn = main_window.database_conn
 
-        self.main_menu.add_action_to_sub_menu("show coeff matrix",main_window.show_coeffs)
+        self.main_menu.add_action_to_main_menu("show coeff matrix",main_window.show_coeffs)
