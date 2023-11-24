@@ -124,14 +124,14 @@ class DataSetFrame:
     def get_numpy_array(self) -> pd.DataFrame:
         return self.main_frame.to_numpy()
     
-    def import_csv(self, file_path):
+    def __import_csv(self, file_path):
         self.main_frame = pd.read_csv(file_path) 
     
     def empty(self):
         tmp = self.main_frame.empty
         return tmp
 
-    def import_excel(self, file_path):
+    def __import_excel(self, file_path):
         self.main_frame = pd.read_excel(file_path)
 
     def set_headers(self, headers):
@@ -213,9 +213,9 @@ class DataSetFrame:
         path, _ = QFileDialog.getOpenFileName()
         filename, ending = os.path.splitext(path)
         if ending == ".csv":
-            self.import_csv(path)
+            self.__import_csv(path)
         elif ending == ".xlsx":
-            self.import_excel(path)
+            self.__import_excel(path)
         # empty filepath
         elif ending == "":
             return
