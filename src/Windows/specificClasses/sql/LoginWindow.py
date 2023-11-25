@@ -1,12 +1,16 @@
 from typing import List
 from PySide6 import QtWidgets
+from typing import TYPE_CHECKING
 from baseClasses.connectionDatabase import DatabaseConnector
 
+if TYPE_CHECKING:
+    from main import MainWindow
+
 class LoginWindow(QtWidgets.QWidget):
-    def __init__(self, main_window: QtWidgets.QWidget, main_data_base_connector: DatabaseConnector):
+    def __init__(self, main_window: "MainWindow"):
         super().__init__()
         self.main_window = main_window
-        self.main_data_base_connector = main_data_base_connector
+        self.main_data_base_connector = main_window.database_conn
 
         self.ip_address = ""
         self.user_name = ""

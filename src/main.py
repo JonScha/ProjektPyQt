@@ -50,7 +50,7 @@ class MainWindow(QMainWindow):
         self.move(qr.topLeft())
 
     def show_login_window(self):
-        self.login_window = LoginWindow(self, self.database_conn)
+        self.login_window = LoginWindow(self)
         self.login_window.show()
 
     def show_sql_input_window(self):
