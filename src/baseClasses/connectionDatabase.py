@@ -1,6 +1,7 @@
 import pandas as pd
 import psycopg2
 import sqlalchemy
+import asyncio
 from sqlalchemy import create_engine
 from typing import List, AnyStr
 
@@ -51,7 +52,7 @@ class DatabaseConnector():
         self.cursor, self.engine = None,None
         self.connected_bool = False
         
-    def connect(self, host_address, database_name, user_name, password) -> None:
+    def __connect_postgres(self, host_address, database_name, user_name, password) -> None:
         """
             Starts connection to the Database        
         """
@@ -120,3 +121,28 @@ class DatabaseConnector():
         
     def is_connected(self):
         return self.connected_bool
+    
+    def connect_any_dialect(self, host_address, database_name, user_name, password) -> None:
+        """
+            Starts connection to the Database        
+        """
+        self.host_adress = host_address
+        self.database_name = database_name
+        self.user_name = user_name
+        self.password = password
+
+        dialects = ["mysql", "oracle", "postgresql", "mssql", ]
+        for dialect in dialects:
+            url = dialect + "://"+ self.user_name +":"+self.password + "@" + self.host_adress +"/"+ self.database_name
+            print("Conecting to database....")
+            try:
+                self.engine = create_engine(url, echo = False)
+                self.cursor =  self.engine.connect()
+                self.connected_bool = True
+                print("Connection succesfull with a " + dialect + "database")
+                break
+            except BaseException as error:
+                # print("Error: %s" % error)
+                # print("Connection failed!")
+                pass
+        
