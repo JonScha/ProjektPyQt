@@ -4,14 +4,19 @@ from PySide6.QtGui import QAction
 from PySide6.QtCore import Qt
 from .resultWindow import ResultWindow
 from baseClasses import DataSetFrame
-from typing import Callable
+import pandas as pd
+from typing import Callable, TYPE_CHECKING
 import inspect
 
+if TYPE_CHECKING:
+    from main import MainWindow
 class BaseFunctionWindow(QtWidgets.QWidget):
-    def __init__(self, main_window, main_data_set, has_2_datasets=False, width=700, height=550):
+    def __init__(self, main_window : "MainWindow",has_2_datasets=False, width=700, height=550):
         super().__init__()
         self.main_window = main_window
-        self.main_data_set : DataSetFrame = main_data_set
+        self.main_data_set : DataSetFrame = main_window.data_frame
+        self.main_data_set_frame : pd.DataFrame = self.main_data_set.get_main_frame()
+        self.data_viewer = self.main_window.data_viewer
         self.has_2_datasets = has_2_datasets
         self.width = width
         self.height = height
@@ -107,7 +112,7 @@ class BaseFunctionWindow(QtWidgets.QWidget):
         for name, widget in zip(self.parameter_names, self.widget_list):
 
             tmp : str = ""
-
+            
             if type(widget) == QtWidgets.QComboBox:
                 tmp  = widget.currentText()
             else:
@@ -155,7 +160,8 @@ class BaseFunctionWindow(QtWidgets.QWidget):
 
         args = inspect.getfullargspec(self.function).args
         erstes_argument = args[0]
-        zweites_argument = args[1]
+        if len(args) >= 2:
+            zweites_argument = args[1]
 
         params[erstes_argument] = x
 

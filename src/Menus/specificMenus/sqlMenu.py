@@ -8,7 +8,6 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from main import MainWindow
-    from Windows.baseClasses import DataFrameTableView
 
 class SQLMenu(BaseMenu):
 

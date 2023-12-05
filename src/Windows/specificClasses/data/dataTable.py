@@ -39,7 +39,7 @@ class DataFrameTable(QTableWidget):
         self.context_menu = QMenu(self)
         self.name_action_list : list = []
         self.menu_check = False
-        self.__add_context_action("hello", [ lambda col : self.set_column_background_color(col, "red")])
+        self.add_context_action("hello", [ lambda col : self.set_column_background_color(col, "red")])
 
         # Sets first init dataFrame
         for row in range(self.main_frame.shape[0]):
@@ -77,7 +77,7 @@ class DataFrameTable(QTableWidget):
                 self.setItem(row, col, item)
 
 
-    def __add_context_action(self, name : str, functions : list[Callable]):
+    def add_context_action(self, name : str, functions : list[Callable]):
             self.name_action_list.append(functions)
             act = QAction(name, self)
             self.context_menu.addAction(act)
