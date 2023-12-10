@@ -1,5 +1,5 @@
 import sys
-from PySide6.QtWidgets import QApplication, QTableWidget, QTableWidgetItem, QMenu
+from PySide6.QtWidgets import QApplication, QTableWidget, QTableWidgetItem, QMenu, QWidget
 from PySide6.QtGui import QColor, QBrush, QAction, QMouseEvent
 from PySide6.QtCore import QPoint
 from typing import TYPE_CHECKING, Callable
@@ -81,6 +81,12 @@ class DataFrameTable(QTableWidget):
             self.name_action_list.append(functions)
             act = QAction(name, self)
             self.context_menu.addAction(act)
+
+    def add_context_action_window(self, name : str,  window : QWidget):
+            self.name_action_list.append([lambda col : window.show()])
+            act = QAction(name, self)
+            self.context_menu.addAction(act)
+
 
     # overwritten-fuction from QTableWidget
     def contextMenuEvent(self, event : QMouseEvent) -> None:

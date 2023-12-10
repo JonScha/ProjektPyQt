@@ -4,7 +4,6 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QGridLayout
 from Menus.specificMenus import FileMenu, SQLMenu, DataScienceMenu
 from Windows.specificClasses.sql import LoginWindow, SQLInputWindow
 from Windows.specificClasses.data import DataFrameTable
-from Windows.specificClasses.operateWindows.columnWindow import columnWindow
 from baseClasses import DatabaseConnector
 from seaborn import heatmap
 import pandas as pd
@@ -31,8 +30,6 @@ class MainWindow(QMainWindow):
         self.file_menu = FileMenu(self)
         self.setCentralWidget(self.data_viewer)
         self.layout().setContentsMargins(0,0,0,0)
-
-        self.column_window = columnWindow(self)
 
 
         self.sql_menu = SQLMenu(self)

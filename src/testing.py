@@ -71,6 +71,11 @@ class TestbaseFunctionWindow(unittest.TestCase):
         self.main_window.add_boolean_dropdown("boolean_drop")
         self.main_window.add_entry("entry_param")
 
+class testBaseColumnWindow(unittest.TestCase):
+
+    def setUp(self) -> None:
+        return super().setUp()
+
 if __name__ == '__main__':
     #unittest.main()
     # main_window = QtWidgets.QTabWidget()
@@ -96,16 +101,10 @@ if __name__ == '__main__':
     menus = BaseMenu(main_window)
    
     file_menu = menus.add_main_menu("File")
-    #sub = menus.add_sub_menu("hello file",file_menu)
     menus.add_action_to_sub_menu("Hallo!" , lambda : print(df.get_numpy_array()))
-    # main_window.add_boolean_dropdown("a")
-    # main_window.add_boolean_dropdown("b")
-    
-    # main_window.add_function_button()
-    # main_window.set_function(test_func)
-    # main_window.set_result_names(["1", "2"])
+
     main_window.show()
-    # print(main_window.get_parameters())
+ 
     
 
     sys.exit(app.exec())
