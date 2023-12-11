@@ -1,7 +1,7 @@
 from Windows.baseClasses import BaseFunctionWindow
 from abc import abstractmethod, ABC, ABCMeta
 from PySide6 import QtWidgets, QtGui
-from PySide6.QtWidgets import QVBoxLayout, QSpacerItem, QSizePolicy, QGridLayout, QLabel
+from PySide6.QtWidgets import QVBoxLayout, QSpacerItem, QSizePolicy, QGridLayout, QLabel, QPushButton
 from PySide6.QtGui import QAction
 from PySide6.QtCore import Qt
 from typing import TYPE_CHECKING
@@ -99,3 +99,9 @@ class BaseColumnWindow(QtWidgets.QWidget):
     def add_action(self):
         self.data_viewer.add_context_action("example", [self.function])
         
+    @__check_row_columns_wrapper
+    def add_ok_button(self):
+        # To-Do button should start the column function
+        button = QPushButton(text = "OK")
+        self.layout().addWidget(button, self.row + 1, 1)
+
