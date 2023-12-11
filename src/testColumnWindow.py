@@ -23,7 +23,6 @@ class Test(unittest.TestCase):
         self.window = BaseColumnWindow(self.main_win)
         self.window.add_entry("Hey", "es geht!")
         self.main_win.data_viewer.add_context_action_window("example", self.window)
-        #self.window.function = self.window.show
 
         self.app.exec()
 
