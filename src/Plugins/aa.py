@@ -14,7 +14,12 @@ class testWindow(BaseColumnWindow):
         self.add_to_data_tabe("heyeqqe")
         
 
-    def func(self,col, Hey):
+    def func(self,col_idx, Hey):
 
         print("Funktion ausgelöst!!!")
         print(Hey)
+        column_name = self.main_data_set.get_column_name_by_idx(col_idx)
+        self.main_data_set.get_main_frame()[column_name] = self.main_data_set.get_main_frame()[column_name] +3
+
+        self.data_viewer.update()
+        
