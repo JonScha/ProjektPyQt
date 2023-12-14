@@ -10,21 +10,39 @@ from main import MainWindow
 
 
 
+class testWindow(BaseColumnWindow):
+
+    def __init__(self, main_window: MainWindow, width=700, height=550):
+        super().__init__(main_window, width, height)
+
+        self.add_entry("Hey", "es geht!")
+        self.function = self.func
+        self.add_ok_button()
+        
+
+    def func(self,col, Hey):
+
+        print("Funktion ausgelöst!!!")
+        print(Hey)
+
+    
+    
+
 class Test(unittest.TestCase):
 
 
-        
-  
+    
+
+    
 
     def test_s(self):
         self.app = QtWidgets.QApplication(sys.argv)
         self.main_win = MainWindow()
         self.main_win.show()
-        self.window = BaseColumnWindow(self.main_win)
-        self.window.add_entry("Hey", "es geht!")
-        self.window.add_ok_button()
-        self.main_win.data_viewer.add_context_action_window("example", self.window)
         
+        self.window = testWindow(self.main_win)
+
+        self.window.add_to_data_tabe("example")
 
         self.app.exec()
 

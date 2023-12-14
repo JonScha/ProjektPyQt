@@ -83,7 +83,7 @@ class DataFrameTable(QTableWidget):
             self.context_menu.addAction(act)
 
     def add_context_action_window(self, name : str,  window : QWidget):
-            self.name_action_list.append([lambda col : window.show()])
+            self.name_action_list.append([lambda col : window.show(col)])
             act = QAction(name, self)
             self.context_menu.addAction(act)
 

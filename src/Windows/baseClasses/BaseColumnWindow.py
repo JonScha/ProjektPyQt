@@ -20,7 +20,6 @@ class BaseColumnWindow(QtWidgets.QWidget):
         super().__init__()
         self.main_window = main_window
         self.main_data_set : DataSetFrame = main_window.data_frame
-        self.main_data_set_frame : pd.DataFrame = self.main_data_set.get_main_frame()
         self.data_viewer = self.main_window.data_viewer
         
         self.width = width
@@ -35,6 +34,8 @@ class BaseColumnWindow(QtWidgets.QWidget):
         self.widget_list : list[QtWidgets.QLineEdit | QtWidgets.QComboBox] = []
         self.non_callable_widget_list = []
         self.parameters = {}
+
+        self.selected_column = 0
 
        
         self.setWindowTitle("Base Function Window")
@@ -98,10 +99,51 @@ class BaseColumnWindow(QtWidgets.QWidget):
     
     def add_action(self):
         self.data_viewer.add_context_action("example", [self.function])
+
+
+    def __set_parameters(self):
+        for name, widget in zip(self.parameter_names, self.widget_list):
+
+            tmp : str = ""
+            
+            if type(widget) == QtWidgets.QComboBox:
+                tmp  = widget.currentText()
+            else:
+                tmp  = widget.text()
+            if tmp.isdigit():
+                self.parameters[name] = int(tmp)
+            elif tmp == "False":
+                self.parameters[name] = False
+            elif tmp == "True":
+                self.parameters[name] = True
+            else:
+                self.parameters[name] = tmp
+
+            print(self.parameters)
+
+    def get_parameters(self):
+        return self.parameters
         
     @__check_row_columns_wrapper
     def add_ok_button(self):
         # To-Do button should start the column function
-        button = QPushButton(text = "OK")
-        self.layout().addWidget(button, self.row + 1, 1)
+        self.main_button = QtWidgets.QPushButton("OK", self)
+        self.layout().addWidget(self.main_button, self.row + 1, 2)
 
+
+    def add_to_data_tabe(self, plugin_name : str):
+
+        self.data_viewer.add_context_action_window(plugin_name, self)
+    
+
+    def show(self, col):
+        """
+            shows the window and sets the selected_column to the current selected column
+        """
+        self.selected_column = col
+        col_name = self.main_data_set.get_column_name_by_idx(self.selected_column)
+        print("Columns: ", self.main_data_set.get_column_names())
+        #self.main_button.clicked.connect(lambda : print(self.main_data_set.get_main_frame()[col_name]))
+        
+        self.main_button.clicked.connect(lambda : (self.__set_parameters(),self.function(col, **self.parameters)))
+        super().show()

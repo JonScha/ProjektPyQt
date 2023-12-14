@@ -20,10 +20,10 @@ class MainWindow(QMainWindow):
         self.grid_layout = QGridLayout()
         self.database_conn = DatabaseConnector()
         
-        data = [0,1,2,3]
-        df = pd.DataFrame(data)
+        # data = [0,1,2,3]
+        # df = pd.DataFrame(data)
         self.data_frame = DataSetFrame()
-        self.data_frame.set_main_frame(df)
+        # self.data_frame.set_main_frame(df)
         
         # To-Do
         self.data_viewer = DataFrameTable(self)
