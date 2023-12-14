@@ -7,6 +7,7 @@ from Menus import BaseMenu
 import pandas as pd
 import unittest
 from main import MainWindow
+from pluginManager import PluginManager
 
 
 
@@ -39,10 +40,15 @@ class Test(unittest.TestCase):
         self.app = QtWidgets.QApplication(sys.argv)
         self.main_win = MainWindow()
         self.main_win.show()
-        
-        self.window = testWindow(self.main_win)
 
-        self.window.add_to_data_tabe("example")
+        handler = PluginManager("Plugins", self.main_win)
+        handler.importiere_module_und_klassen_aus_ordner()
+        print(handler.plugins)
+
+        
+        # self.window = testWindow(self.main_win)
+
+        # self.window.add_to_data_tabe("example")
 
         self.app.exec()
 
