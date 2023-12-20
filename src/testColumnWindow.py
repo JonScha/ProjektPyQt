@@ -31,11 +31,6 @@ class testWindow(BaseColumnWindow):
 
 class Test(unittest.TestCase):
 
-
-    
-
-    
-
     def test_s(self):
         self.app = QtWidgets.QApplication(sys.argv)
         self.main_win = MainWindow()

@@ -131,12 +131,6 @@ class BaseColumnWindow(QtWidgets.QWidget):
         self.main_button = QtWidgets.QPushButton("OK", self)
         self.layout().addWidget(self.main_button, self.row + 1, 2)
 
-
-    def add_to_data_table(self, plugin_name : str):
-
-        self.data_viewer.add_context_action_window(plugin_name, self)
-    
-
     def show(self, col):
         """
             shows the window and sets the selected_column to the current selected column
@@ -144,7 +138,6 @@ class BaseColumnWindow(QtWidgets.QWidget):
         self.selected_column = col
         col_name = self.main_data_set.get_column_name_by_idx(self.selected_column)
         print("Columns: ", self.main_data_set.get_column_names())
-        #self.main_button.clicked.connect(lambda : print(self.main_data_set.get_main_frame()[col_name]))
         
         self.main_button.clicked.connect(lambda : (self.__set_parameters(),self.function(col, **self.parameters)))
         super().show()
