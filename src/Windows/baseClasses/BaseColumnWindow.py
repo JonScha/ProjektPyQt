@@ -95,7 +95,7 @@ class BaseColumnWindow(QtWidgets.QWidget):
 
         self.widget_list.append(entry)
 
-    def function(self):
+    def function(self, col):
         raise NotImplementedError("function not implemented!")
     
     def add_action(self):
@@ -148,3 +148,7 @@ class BaseColumnWindow(QtWidgets.QWidget):
             function to display the new plugin to the data viewer
         """
         self.data_viewer.add_context_action_window(self.plugin_name, self)
+
+
+    def set_name(self, name : str):
+        self.plugin_name = name
