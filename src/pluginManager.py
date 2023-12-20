@@ -35,34 +35,25 @@ class PluginManager:
                 self.plugin_files.append(file)
         
         for plugin_file in self.plugin_files:
-
-            
-            #classes = [cls_name for cls_name, cls_obj in inspect.getmembers(module) if inspect.isclass(cls_obj)]
-
             import_directory = f'{self.plugin_folder}.{plugin_file}'
             print(import_directory)
             module = importlib.import_module(plugin_file, import_directory)
             print(module)
-            # 
-            #cls = getattr(module, "" )
 
 
-    def importiere_module_und_klassen_aus_ordner(self):
+
+    def import_plugins(self):
         dateien = [f for f in os.listdir(self.plugin_folder) if f.endswith(".py")]
 
         for datei in dateien:
-            modulname = os.path.splitext(datei)[0]
+            module_name = os.path.splitext(datei)[0]
             modulpfad = os.path.join(self.plugin_folder, datei)
             
-            modul = importlib.import_module(f"{self.plugin_folder}.{modulname}")
+            modul = importlib.import_module(f"{self.plugin_folder}.{module_name}")
 
-            for name in dir(modul):
-                objekt = getattr(modul, name)
+            for class_name in dir(modul):
+                objekt = getattr(modul, class_name)
                 if inspect.isclass(objekt) and issubclass(objekt,BaseColumnWindow) and objekt != BaseColumnWindow:
-                    print(f"Importiere Klasse {name} aus Modul {modulname}")
+                    print(f"import class {class_name} from module {module_name}")
                     self.plugins.append(objekt)
-                    objekt(self.main_window)
-
-# Beispielaufruf
-# mein_modulordner = "dein/ordnerpfad"
-# importiere_module_und_klassen_aus_ordner(mein_modulordner)
+                    objekt(self.main_window).initialize()

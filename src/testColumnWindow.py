@@ -42,14 +42,8 @@ class Test(unittest.TestCase):
         self.main_win.show()
 
         handler = PluginManager("Plugins", self.main_win)
-        handler.importiere_module_und_klassen_aus_ordner()
+        handler.import_plugins()
         print(handler.plugins)
-
-        
-        # self.window = testWindow(self.main_win)
-
-        # self.window.add_to_data_tabe("example")
-
         self.app.exec()
 
         

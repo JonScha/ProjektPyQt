@@ -11,7 +11,7 @@ class testWindow(BaseColumnWindow):
         self.function = self.func
         self.add_ok_button()
 
-        self.add_to_data_tabe("heyeqqe")
+        # self.add_to_data_table("heyeqqe")
         
 
     def func(self,col_idx, Hey):
