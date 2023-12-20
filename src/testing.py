@@ -77,12 +77,7 @@ class testBaseColumnWindow(unittest.TestCase):
         return super().setUp()
 
 if __name__ == '__main__':
-    #unittest.main()
-    # main_window = QtWidgets.QTabWidget()
-    # login_window = BaseFunctionWindow(main_window, DatabaseConnector())
-    # login_window.show()
-
-
+    
     def test_func(x, a, b):
 
         if a:

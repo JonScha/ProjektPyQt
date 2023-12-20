@@ -1,7 +1,7 @@
 from Windows.baseClasses import BaseFunctionWindow
 from abc import abstractmethod, ABC, ABCMeta
 from PySide6 import QtWidgets, QtGui
-from PySide6.QtWidgets import QVBoxLayout, QSpacerItem, QSizePolicy, QGridLayout, QLabel
+from PySide6.QtWidgets import QVBoxLayout, QSpacerItem, QSizePolicy, QGridLayout, QLabel, QPushButton
 from PySide6.QtGui import QAction
 from PySide6.QtCore import Qt
 from typing import TYPE_CHECKING
@@ -20,7 +20,6 @@ class BaseColumnWindow(QtWidgets.QWidget):
         super().__init__()
         self.main_window = main_window
         self.main_data_set : DataSetFrame = main_window.data_frame
-        self.main_data_set_frame : pd.DataFrame = self.main_data_set.get_main_frame()
         self.data_viewer = self.main_window.data_viewer
         
         self.width = width
@@ -35,6 +34,9 @@ class BaseColumnWindow(QtWidgets.QWidget):
         self.widget_list : list[QtWidgets.QLineEdit | QtWidgets.QComboBox] = []
         self.non_callable_widget_list = []
         self.parameters = {}
+        self.plugin_name = "Hans"
+
+        self.selected_column = 0
 
        
         self.setWindowTitle("Base Function Window")
@@ -93,9 +95,60 @@ class BaseColumnWindow(QtWidgets.QWidget):
 
         self.widget_list.append(entry)
 
-    def function(self):
+    def function(self, col):
         raise NotImplementedError("function not implemented!")
     
     def add_action(self):
         self.data_viewer.add_context_action("example", [self.function])
+
+
+    def __set_parameters(self):
+        for name, widget in zip(self.parameter_names, self.widget_list):
+
+            tmp : str = ""
+            
+            if type(widget) == QtWidgets.QComboBox:
+                tmp  = widget.currentText()
+            else:
+                tmp  = widget.text()
+            if tmp.isdigit():
+                self.parameters[name] = int(tmp)
+            elif tmp == "False":
+                self.parameters[name] = False
+            elif tmp == "True":
+                self.parameters[name] = True
+            else:
+                self.parameters[name] = tmp
+
+            print(self.parameters)
+
+    def get_parameters(self):
+        return self.parameters
         
+    @__check_row_columns_wrapper
+    def add_ok_button(self):
+        # To-Do button should start the column function
+        self.main_button = QtWidgets.QPushButton("OK", self)
+        self.layout().addWidget(self.main_button, self.row + 1, 2)
+
+    def show(self, col):
+        """
+            shows the window and sets the selected_column to the current selected column
+        """
+        self.selected_column = col
+        col_name = self.main_data_set.get_column_name_by_idx(self.selected_column)
+        print("Columns: ", self.main_data_set.get_column_names())
+        
+        self.main_button.clicked.connect(lambda : (self.__set_parameters(),self.function(col, **self.parameters)))
+        super().show()
+
+
+    def initialize(self):
+        """
+            function to display the new plugin to the data viewer
+        """
+        self.data_viewer.add_context_action_window(self.plugin_name, self)
+
+
+    def set_name(self, name : str):
+        self.plugin_name = name
