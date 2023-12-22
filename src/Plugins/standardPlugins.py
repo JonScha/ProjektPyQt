@@ -9,14 +9,14 @@ class testWindow(BaseColumnWindow):
         super().__init__(main_window, width, height)
 
         self.add_entry("Hey", "es geht!")
-        self.function = self.func
+        self.function = self.func2
         self.add_ok_button()
 
         
 
-    def func(self,col_idx, Hey):
+    def func2(self,col_idx, Hey):
 
-        print("Funktion ausgelöst!!!")
+        print("Funktion ausgelöst!!! BaseColumnWindow!")
         print(Hey)
         column_name = self.main_data_set.get_column_name_by_idx(col_idx)
         self.main_data_set.get_main_frame()[column_name] = self.main_data_set.get_main_frame()[column_name] +3
@@ -35,7 +35,7 @@ class testWindow2(BaseSimplePlugin):
 
     def func(self,col_idx):
 
-        print("Funktion ausgelöst!!!")
+        print("Funktion ausgelöst!!! SimplePlugin")
         column_name = self.main_data_set.get_column_name_by_idx(col_idx)
         self.main_data_set.get_main_frame()[column_name] = self.main_data_set.get_main_frame()[column_name] +3
 

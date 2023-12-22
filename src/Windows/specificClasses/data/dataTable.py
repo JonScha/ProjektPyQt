@@ -5,6 +5,8 @@ from PySide6.QtCore import QPoint
 from typing import TYPE_CHECKING, Callable
 import pandas as pd
 
+from Windows.baseClasses import BaseSimplePlugin, BaseColumnWindow
+
 if TYPE_CHECKING:
     from main import MainWindow
 
@@ -39,7 +41,7 @@ class DataFrameTable(QTableWidget):
         self.context_menu = QMenu(self)
         self.name_action_list : list = []
         self.menu_check = False
-        self.add_context_action("hello", [ lambda col : self.set_column_background_color(col, "red")])
+        #self.add_simple_plugin("hello", [ lambda col : self.set_column_background_color(col, "red")])
 
         # Sets first init dataFrame
         for row in range(self.main_frame.shape[0]):
@@ -77,15 +79,17 @@ class DataFrameTable(QTableWidget):
                 self.setItem(row, col, item)
 
 
-    def add_context_action(self, name : str, functions : list[Callable]):
-            self.name_action_list.append(functions)
-            act = QAction(name, self)
+    def add_simple_plugin(self, plugin : BaseSimplePlugin):
+            self.name_action_list.append(plugin.function)
+            act = QAction(plugin.name, self)
             self.context_menu.addAction(act)
 
-    def add_context_action_window(self, name : str,  window : QWidget):
+    def add_window_plugin(self, window : BaseColumnWindow):
             self.name_action_list.append([lambda col : window.show(col)])
-            act = QAction(name, self)
+            act = QAction(window.name, self)
             self.context_menu.addAction(act)
+
+            print("Action list: ", self.name_action_list)
 
 
     # overwritten-fuction from QTableWidget

@@ -34,7 +34,7 @@ class BaseColumnWindow(QtWidgets.QWidget):
         self.widget_list : list[QtWidgets.QLineEdit | QtWidgets.QComboBox] = []
         self.non_callable_widget_list = []
         self.parameters = {}
-        self.plugin_name = "Hans"
+        self.name = "Hans"
 
         self.selected_column = 0
 
@@ -99,7 +99,7 @@ class BaseColumnWindow(QtWidgets.QWidget):
         raise NotImplementedError("function not implemented!")
     
     def add_action(self):
-        self.data_viewer.add_context_action("example", [self.function])
+        self.data_viewer.add_simple_plugin("example", [self.function])
 
 
     def __set_parameters(self):
@@ -147,8 +147,8 @@ class BaseColumnWindow(QtWidgets.QWidget):
         """
             function to display the new plugin to the data viewer
         """
-        self.data_viewer.add_context_action_window(self.plugin_name, self)
+        self.data_viewer.add_window_plugin(self)
 
 
     def set_name(self, name : str):
-        self.plugin_name = name
+        self.name = name

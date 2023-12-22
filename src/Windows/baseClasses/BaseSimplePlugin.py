@@ -13,7 +13,7 @@ class BaseSimplePlugin():
         self.main_window = main_window
         self.main_data_set : DataSetFrame = main_window.data_frame
         self.data_viewer = self.main_window.data_viewer
-        self.plugin_name = "Jürgen!"
+        self.name = "Jürgen!"
 
 
     def function(self, col):
@@ -21,7 +21,7 @@ class BaseSimplePlugin():
     
 
     def initialize(self):
-        self.data_viewer.add_context_action(self.plugin_name, [lambda col : self.function(col)])
+        self.data_viewer.add_simple_plugin(self)
 
     def set_name(self, name : str):
-        self.plugin_name = name
+        self.name = name
