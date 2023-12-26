@@ -2,7 +2,7 @@ import sys
 from PySide6 import QtWidgets
 from baseClasses import DataSetFrame
 from Windows.specificClasses.sql.InputWindow import SQLInputWindow
-from Windows.baseClasses import BaseColumnWindow
+#from Windows.baseClasses import BaseColumnWindow
 from Menus import BaseMenu
 import pandas as pd
 import unittest
@@ -11,20 +11,20 @@ from pluginManager import PluginManager
 
 
 
-class testWindow(BaseColumnWindow):
+# class testWindow(BaseColumnWindow):
 
-    def __init__(self, main_window: MainWindow, width=700, height=550):
-        super().__init__(main_window, width, height)
+#     def __init__(self, main_window: MainWindow, width=700, height=550):
+#         super().__init__(main_window, width, height)
 
-        self.add_entry("Hey", "es geht!")
-        self.function = self.func
-        self.add_ok_button()
+#         self.add_entry("Hey", "es geht!")
+#         self.function = self.func
+#         self.add_ok_button()
         
 
-    def func(self,col, Hey):
+#     def func(self,col, Hey):
 
-        print("Funktion ausgelöst!!!")
-        print(Hey)
+#         print("Funktion ausgelöst!!!")
+#         print(Hey)
 
     
     

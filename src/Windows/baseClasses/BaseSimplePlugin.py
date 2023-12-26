@@ -1,25 +1,18 @@
 from typing import TYPE_CHECKING
-
-
+from . import BasePlugin
 if TYPE_CHECKING:
     from main import MainWindow
     from baseClasses import DataSetFrame
 
 
-class BaseSimplePlugin():
+class BaseSimplePlugin(BasePlugin):
 
 
     def __init__(self, main_window : "MainWindow"):
-        self.main_window = main_window
-        self.main_data_set : DataSetFrame = main_window.data_frame
-        self.data_viewer = self.main_window.data_viewer
-        self.name = "Jürgen!"
+        super().__init__(main_window)
+        pass
 
-
-    def function(self, col):
-        raise NotImplementedError("function not implemented!")
-    
-
+ 
     def initialize(self):
         self.data_viewer.add_simple_plugin(self)
 

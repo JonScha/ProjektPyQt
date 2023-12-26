@@ -5,10 +5,11 @@ from PySide6.QtCore import QPoint
 from typing import TYPE_CHECKING, Callable
 import pandas as pd
 
-from Windows.baseClasses import BaseSimplePlugin, BaseColumnWindow
+
 
 if TYPE_CHECKING:
     from main import MainWindow
+    from Windows.baseClasses import BaseSimplePlugin, BaseColumnWindow
 
 class DataFrameTable(QTableWidget):
     """
@@ -79,14 +80,22 @@ class DataFrameTable(QTableWidget):
                 self.setItem(row, col, item)
 
 
-    def add_simple_plugin(self, plugin : BaseSimplePlugin):
+    def add_simple_plugin(self, plugin : "BaseSimplePlugin"):
+            """
+                add a BaseSimplePlugin to the dataViewer
+            """
             self.name_action_list.append(plugin.function)
             act = QAction(plugin.name, self)
+            act.triggered.connect(lambda :plugin.function(self.current_column))
             self.context_menu.addAction(act)
 
-    def add_window_plugin(self, window : BaseColumnWindow):
-            self.name_action_list.append([lambda col : window.show(col)])
+    def add_window_plugin(self, window : "BaseColumnWindow"):
+            """
+                add a BaseColumnWindow to the dataViewer
+            """
+            self.name_action_list.append(lambda col : window.show(col))
             act = QAction(window.name, self)
+            act.triggered.connect(lambda : window.show(self.current_column))
             self.context_menu.addAction(act)
 
             print("Action list: ", self.name_action_list)
@@ -97,13 +106,6 @@ class DataFrameTable(QTableWidget):
         coordinates : QPoint = event.pos()
         x, y = coordinates.toTuple()
         self.current_column = self.columnAt(x)
-
-        if not self.menu_check:
-            for i, action in enumerate(self.context_menu.actions()):
-                for func in self.name_action_list[i]:
-                    action.triggered.connect(lambda : func(self.current_column))
-            self.menu_check = True
-        
         self.context_menu.exec(self.mapToGlobal(event.pos()))
         self.current_column = self.columnAt(x)
 

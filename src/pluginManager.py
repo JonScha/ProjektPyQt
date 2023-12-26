@@ -7,11 +7,11 @@ from inspect import isclass
 from pkgutil import iter_modules
 from pathlib import Path
 from importlib import import_module
-from Windows.baseClasses import BaseColumnWindow, BaseSimplePlugin
-
-
+from Windows.baseClasses import BaseColumnWindow
+from Windows.baseClasses.BaseSimplePlugin import BaseSimplePlugin
 if TYPE_CHECKING:
     from main import MainWindow
+    
     
 
 class PluginManager:
@@ -24,25 +24,10 @@ class PluginManager:
 
         self.plugin_types = [BaseColumnWindow, BaseSimplePlugin]
 
-
-    def load_plugins(self):
-        # To be able to execute the plugin they need to be locatable
- 
-        files : list[str] = os.listdir(self.plugin_folder)
-
-        for file in files:
-            if file.endswith(".py"):
-                self.plugin_files.append(file)
-        
-        for plugin_file in self.plugin_files:
-            import_directory = f'{self.plugin_folder}.{plugin_file}'
-            print(import_directory)
-            module = importlib.import_module(plugin_file, import_directory)
-            print(module)
-
-
-
     def import_plugins(self):
+        """
+            imports all plugins in the ./Plugins directory 
+        """
         dateien = [f for f in os.listdir(self.plugin_folder) if f.endswith(".py")]
 
         for datei in dateien:

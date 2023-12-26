@@ -95,8 +95,6 @@ class BaseColumnWindow(QtWidgets.QWidget):
 
         self.widget_list.append(entry)
 
-    def function(self, col):
-        raise NotImplementedError("function not implemented!")
     
     def add_action(self):
         self.data_viewer.add_simple_plugin("example", [self.function])
