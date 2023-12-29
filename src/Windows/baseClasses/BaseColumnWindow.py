@@ -1,8 +1,7 @@
 from Windows.baseClasses import BaseFunctionWindow
 from abc import abstractmethod, ABC, ABCMeta
 from PySide6 import QtWidgets, QtGui
-from PySide6.QtWidgets import QVBoxLayout, QSpacerItem, QSizePolicy, QGridLayout, QLabel, QPushButton
-from PySide6.QtGui import QAction
+from PySide6.QtWidgets import QGridLayout, QLabel
 from PySide6.QtCore import Qt
 from typing import TYPE_CHECKING
 import pandas as pd
@@ -140,6 +139,11 @@ class BaseColumnWindow(QtWidgets.QWidget):
         self.main_button.clicked.connect(lambda : (self.__set_parameters(),self.function(col, **self.parameters)))
         super().show()
 
+    def get_baseClass_show(self):
+        return super().show()
+
+    def function(self, col, *args):
+        raise NotImplementedError("function not implemented!!!")
 
     def initialize(self):
         """

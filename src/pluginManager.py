@@ -7,7 +7,7 @@ from inspect import isclass
 from pkgutil import iter_modules
 from pathlib import Path
 from importlib import import_module
-from Windows.baseClasses import BaseColumnWindow
+from Windows.baseClasses import BaseColumnWindow, BaseColumnResultWindow
 from Windows.baseClasses.BaseSimplePlugin import BaseSimplePlugin
 if TYPE_CHECKING:
     from main import MainWindow
@@ -22,7 +22,7 @@ class PluginManager:
         self.data_viewer = self.main_window.data_viewer
         self.plugin_files = []
 
-        self.plugin_types = [BaseColumnWindow, BaseSimplePlugin]
+        self.plugin_types = [BaseColumnWindow, BaseSimplePlugin, BaseColumnResultWindow]
 
     def import_plugins(self):
         """

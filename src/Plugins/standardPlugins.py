@@ -1,4 +1,4 @@
-from Windows.baseClasses import BaseColumnWindow
+from Windows.baseClasses import BaseColumnWindow, BaseColumnResultWindow
 from Windows.baseClasses.BaseSimplePlugin import BaseSimplePlugin
 from main import MainWindow
 # from main import MainWindow
@@ -85,4 +85,23 @@ class FilterTreshhold(BaseColumnWindow):
         df = df[df[column_name] <= float(threshold)]
         self.main_data_set.set_main_frame(df)
         self.data_viewer.update()
-                          
+
+class TestBaseColumnResultWindow(BaseColumnResultWindow):
+
+    def __init__(self, main_window: MainWindow, width=700, height=550):
+        super().__init__(main_window, width, height)
+
+        self.function = self.func
+        self.set_name("filter_threshold_return")
+        self.add_entry("threshold")
+        self.result_names = ["1", "2"]
+        self.add_ok_button()
+
+    def func(self, col_idx, threshold):
+        df = self.main_data_set.get_main_frame()
+        column_name = self.main_data_set.get_column_name_by_idx(col_idx)
+        df = df[df[column_name] <= float(threshold)]
+        self.main_data_set.set_main_frame(df)
+        self.data_viewer.update()
+
+        return 10,20

@@ -54,6 +54,7 @@ class ResultWindow(QtWidgets.QWidget):
 
             self.column += 1
 
+
     def check_row_columns(self):
         if self.column % self.num_columns == 0:
             self.row += 1
