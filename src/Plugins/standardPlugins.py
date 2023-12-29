@@ -82,7 +82,7 @@ class FilterTreshhold(BaseColumnWindow):
     def func(self, col_idx, threshold):
         df = self.main_data_set.get_main_frame()
         column_name = self.main_data_set.get_column_name_by_idx(col_idx)
-        df = df[df[column_name] <= threshold]
+        df = df[df[column_name] <= float(threshold)]
         self.main_data_set.set_main_frame(df)
         self.data_viewer.update()
                           
