@@ -16,10 +16,10 @@ class ResultWindow(QtWidgets.QWidget):
         self.setWindowTitle("Result Window")
         self.setGeometry(100, 100, width, height)
 
-        layout = QtWidgets.QVBoxLayout(self)
-        #layout = QtWidgets.QGridLayout(self)
+        #layout = QtWidgets.QVBoxLayout(self)
+        layout = QtWidgets.QGridLayout(self)
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
-        layout.addStretch(1)
+        #layout.addStretch(1)
 
         self.setMaximumSize(self.width, self.height)
         self.create_labels()

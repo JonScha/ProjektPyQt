@@ -1,17 +1,16 @@
-from main import MainWindow
+from typing import TYPE_CHECKING
 from PySide6 import QtWidgets, QtGui
 from PySide6.QtWidgets import QGridLayout, QLabel
 from PySide6.QtCore import Qt
 from . import BaseColumnWindow, ResultWindow
 
-
-
-
+if TYPE_CHECKING:
+    from main import MainWindow
 
 class BaseColumnResultWindow(BaseColumnWindow):
 
 
-    def __init__(self, main_window: MainWindow, width=700, height=550):
+    def __init__(self, main_window: "MainWindow", width=700, height=550):
         super().__init__(main_window, width, height)
 
         

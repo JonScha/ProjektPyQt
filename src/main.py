@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QGridLayout
 from Menus.specificMenus import FileMenu, SQLMenu, DataScienceMenu
 from Windows.specificClasses.sql import LoginWindow, SQLInputWindow
 from Windows.specificClasses.data import DataFrameTable
+from pluginManager import PluginManager
 from baseClasses import DatabaseConnector
 from seaborn import heatmap
 import pandas as pd
@@ -67,5 +68,7 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     Main_Win = MainWindow()
+    handler = PluginManager("Plugins", Main_Win)
+    handler.import_plugins()
     Main_Win.show()
     sys.exit(app.exec())
