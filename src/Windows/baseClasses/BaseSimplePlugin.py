@@ -1,5 +1,5 @@
 from typing import TYPE_CHECKING
-from Plugins.baseClasses import BasePlugin
+from _internal.Plugins.baseClasses import BasePlugin
 if TYPE_CHECKING:
     from main import MainWindow
     from baseClasses import DataSetFrame

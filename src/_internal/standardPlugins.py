@@ -58,7 +58,6 @@ class Binarize(BaseColumnWindow):
         self.set_name("binarize")
         self.add_ok_button()
 
-
     def func(self,col_idx : int, threshold : float):
         column_name = self.main_data_set.get_column_name_by_idx(col_idx)
         self.main_data_set.get_main_frame()[column_name] = (self.main_data_set.get_main_frame()[column_name] 

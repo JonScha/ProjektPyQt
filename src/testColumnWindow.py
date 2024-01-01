@@ -7,7 +7,7 @@ from Menus import BaseMenu
 import pandas as pd
 import unittest
 from main import MainWindow
-from pluginManager import PluginManager
+from _internal.Plugins.pluginManager import PluginManager
 
 
 

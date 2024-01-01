@@ -98,9 +98,6 @@ class DataFrameTable(QTableWidget):
             act.triggered.connect(lambda : window.show(self.current_column))
             self.context_menu.addAction(act)
 
-            print("Action list: ", self.name_action_list)
-
-
     # overwritten-fuction from QTableWidget
     def contextMenuEvent(self, event : QMouseEvent) -> None:
         coordinates : QPoint = event.pos()

@@ -1,12 +1,14 @@
 import sys
+import os
 import matplotlib.pyplot as plt
 from PySide6.QtWidgets import QApplication, QMainWindow, QGridLayout
 from Menus.specificMenus import FileMenu, SQLMenu, DataScienceMenu
 from Windows.specificClasses.sql import LoginWindow, SQLInputWindow
 from Windows.specificClasses.data import DataFrameTable
-from pluginManager import PluginManager
+from _internal.Plugins.pluginManager import PluginManager
 from baseClasses import DatabaseConnector
 from seaborn import heatmap
+from utils import create_folder_shortcut
 import pandas as pd
 from baseClasses import DataSetFrame
 
@@ -20,7 +22,7 @@ class MainWindow(QMainWindow):
 
         self.grid_layout = QGridLayout()
         self.database_conn = DatabaseConnector()
-        
+
         data = [0,1,2,3]
         df = pd.DataFrame(data)
         self.data_frame = DataSetFrame()
@@ -62,13 +64,18 @@ class MainWindow(QMainWindow):
        heatmap(self.data_frame.calc_coeff_matrix())
        plt.show()
 
+    def load_plugins(self):
+        handler = PluginManager("_internal", self)
+        handler.import_plugins()
+
 
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     Main_Win = MainWindow()
-    handler = PluginManager("Plugins", Main_Win)
-    handler.import_plugins()
+    Main_Win.load_plugins()
     Main_Win.show()
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
     sys.exit(app.exec())

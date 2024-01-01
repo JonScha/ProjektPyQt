@@ -9,6 +9,8 @@ from pathlib import Path
 from importlib import import_module
 from Windows.baseClasses import BaseColumnWindow, BaseColumnResultWindow
 from Windows.baseClasses.BaseSimplePlugin import BaseSimplePlugin
+
+
 if TYPE_CHECKING:
     from main import MainWindow
     
@@ -30,9 +32,17 @@ class PluginManager:
         """
         dateien = [f for f in os.listdir(self.plugin_folder) if f.endswith(".py")]
 
+        if dateien == []:
+            print("No plugins found!")
+            return
+        
+        print("Dateien: ", dateien)
+            
+
         for datei in dateien:
             module_name = os.path.splitext(datei)[0]
             modulpfad = os.path.join(self.plugin_folder, datei)
+            abs_path = os.path.abspath(datei)
             
             modul = importlib.import_module(f"{self.plugin_folder}.{module_name}")
 
@@ -40,6 +50,9 @@ class PluginManager:
                 objekt = getattr(modul, class_name)
                 if inspect.isclass(objekt) and self.__check_plugin_type(objekt) and objekt not in self.plugin_types:
                     print(f"import class {class_name} from module {module_name}")
+
+                    abs_path = os.path.abspath(self.plugin_folder)
+                    print("Datei wurde von : ", abs_path, " geladen!")
                     self.plugins.append(objekt)
                     objekt(self.main_window).initialize()
 
