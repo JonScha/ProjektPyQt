@@ -65,8 +65,8 @@ class MainWindow(QMainWindow):
        plt.show()
 
     def load_plugins(self):
-        handler = PluginManager("_internal", self)
-        handler.import_plugins()
+        handler = PluginManager("./_internal/Plugins", self)
+        handler.lade_python_dateien()
 
 
 
