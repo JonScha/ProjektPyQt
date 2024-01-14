@@ -77,13 +77,14 @@ class BaseColumnWindow(QtWidgets.QWidget):
         return wrapper
 
     @__check_row_columns_wrapper
-    def add_entry(self, parameter_name, tooltip_text=None):
+    def add_entry(self, parameter_name, tooltip_text=None, QValidator : QtGui.QIntValidator | QtGui.QDoubleValidator = None):
         self.parameter_names.append(parameter_name)
 
 
         label = QLabel(self, text= parameter_name)
         entry = QtWidgets.QLineEdit(self)
         entry.setPlaceholderText(parameter_name)
+        
 
         self.layout().addWidget(label, self.row, self.column)
         self.column += 1
@@ -91,6 +92,9 @@ class BaseColumnWindow(QtWidgets.QWidget):
 
         if tooltip_text is not None:
             entry.setToolTip(tooltip_text)
+        # To-test if works
+        if QValidator is not None:
+            entry.setValidator(QValidator)
 
         self.widget_list.append(entry)
 
