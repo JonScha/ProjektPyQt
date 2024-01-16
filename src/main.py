@@ -8,7 +8,6 @@ from Windows.specificClasses.data import DataFrameTable
 from _internal.Plugins.pluginManager import PluginManager
 from baseClasses import DatabaseConnector
 from seaborn import heatmap
-from utils import create_folder_shortcut
 import pandas as pd
 from baseClasses import DataSetFrame
 
@@ -76,6 +75,4 @@ if __name__ == "__main__":
     Main_Win = MainWindow()
     Main_Win.load_plugins()
     Main_Win.show()
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-
     sys.exit(app.exec())
