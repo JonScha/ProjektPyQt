@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deine Webseite</title>
+    {{ bootstrap.load_css() }}
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">Verfügbare Dateien</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Dateiname</th>
+                    <th>Änderungsdatum</th>
+                    <th>Herunterladen</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for file_info in files_info %}
+                    <tr>
+                        <td>{{ file_info['name'] }}</td>
+                        <td>{{ file_info['last_modified']|datetimeformat }}</td>
+                        <td>
+                            <form action="/download/{{ file_info['name'] }}" method="get">
+                                <button class="btn btn-primary" type="submit">Herunterladen</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {{ bootstrap.load_js() }}
+</body>
+</html>
