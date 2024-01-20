@@ -185,14 +185,15 @@ class DataSetFrame:
     def reset_data_frame(self, column_idx : int):
         self.main_frame = self.backup_frame
 
-    def save_to_file(self, file_path : str):
+    def save_to_file(self):
         
-        filename, ending = os.path.splitext(file_path)
+        path, _ = QFileDialog.getSaveFileName()
+        filename, ending = os.path.splitext(path)
 
         if ending == ".csv":
-            self.main_frame.to_csv(file_path, index=False)
+            self.main_frame.to_csv(path, index=False)
         elif ending == ".xlsx":
-            self.main_frame.to_excel(file_path, index=False)
+            self.main_frame.to_excel(path, index=False)
         else:
             raise ValueError(f"given file type \"{ending}\" not supported!")
         

@@ -2,7 +2,7 @@ import sys
 import os
 import matplotlib.pyplot as plt
 from PySide6.QtWidgets import QApplication, QMainWindow, QGridLayout
-from Menus.specificMenus import FileMenu, SQLMenu, DataScienceMenu
+from Menus.specificMenus import FileMenu, SQLMenu, DataScienceMenu, TorchMenu
 from Windows.specificClasses.sql import LoginWindow, SQLInputWindow
 from Windows.specificClasses.data import DataFrameTable
 from _internal.Plugins.pluginManager import PluginManager
@@ -36,7 +36,7 @@ class MainWindow(QMainWindow):
 
         self.sql_menu = SQLMenu(self)
         self.data_science_menu = DataScienceMenu(self)
-        
+        self.torch_menu = TorchMenu(self)
         
         self.setGeometry(20, 30, self.width, self.height)
         self.__center()

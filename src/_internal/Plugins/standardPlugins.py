@@ -8,6 +8,7 @@ from main import MainWindow
 
 """
 
+
 class testWindow(BaseColumnWindow):
 
     def __init__(self, main_window, width=700, height=550):

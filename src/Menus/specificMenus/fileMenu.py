@@ -3,7 +3,7 @@ from PySide6.QtGui import QAction
 from Menus import BaseMenu
 from baseClasses import DataSetFrame
 from typing import TYPE_CHECKING
-#from chattest import DataFrameTable
+
 if TYPE_CHECKING:
     from main import MainWindow
 
@@ -16,3 +16,11 @@ class FileMenu(BaseMenu):
         self.data_viewer = self.main_window.data_viewer
         
         self.add_action_to_main_menu("import",lambda:  (self.main_frame.import_file(), self.data_viewer.update()))
+
+
+        self.add_action_to_main_menu("save", lambda :  self.main_frame.save_to_file())
+
+
+    def __save_file(self, path):
+        pass
+
