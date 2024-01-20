@@ -194,6 +194,8 @@ class DataSetFrame:
             self.main_frame.to_csv(path, index=False)
         elif ending == ".xlsx":
             self.main_frame.to_excel(path, index=False)
+        elif ending == "":
+            return
         else:
             raise ValueError(f"given file type \"{ending}\" not supported!")
         
