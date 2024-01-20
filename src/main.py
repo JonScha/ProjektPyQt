@@ -27,27 +27,22 @@ class MainWindow(QMainWindow):
         self.data_frame = DataSetFrame()
         self.data_frame.set_main_frame(df)
         
-        # To-Do
         self.data_viewer = DataFrameTable(self)
         self.file_menu = FileMenu(self)
         self.setCentralWidget(self.data_viewer)
         self.layout().setContentsMargins(0,0,0,0)
 
-
         self.sql_menu = SQLMenu(self)
         self.data_science_menu = DataScienceMenu(self)
-        
         
         self.setGeometry(20, 30, self.width, self.height)
         self.__center()
         self.login_window = None
         self.input_window = None
         
-
     def __center(self):
         qr = self.frameGeometry()
         cp = self.screen().availableGeometry().center()
-
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
