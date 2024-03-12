@@ -1,5 +1,6 @@
 from torch.nn import Module
-from dataSetFrame import DataSetFrame
+from .pytorchDataset import CustomDataset
+from .dataSetFrame import DataSetFrame
 from typing import TYPE_CHECKING
 import torch
 import pandas as pd
@@ -7,7 +8,6 @@ import sys
 import torch.optim as optim
 from PySide6.QtWidgets import QFileDialog, QApplication
 from torch.utils.data import DataLoader
-from pytorchDataset import CustomDataset
 import torch.nn as nn
 import torch.nn.functional as F
 
@@ -22,19 +22,20 @@ class SimpleNN(nn.Module):
 
     def forward(self, x):
         x = F.relu(self.fc1(x))  # ReLU activation function for the first layer
-        x = self.fc2(x)          # Output layer without activation function
+        x = F.sigmoid(self.fc2(x))          # Output layer without activation function
         return x
 
 
 class torchModuleHandler():
 
 
-    def __init__(self, datasetframe : DataSetFrame, model : Module) -> None:
+    def __init__(self,main_window, datasetframe : DataSetFrame, model : Module = torch.nn.Module()) -> None:
+
+        self.main_window = main_window
         self.__model : Module = model
 
         self.__dataframe = datasetframe
 
-        self.dataset = CustomDataset(self.__dataframe)
 
         self.loss_dict = {
             "mean_squared_error": nn.MSELoss(),
@@ -58,12 +59,16 @@ class torchModuleHandler():
 
 
     def save_model(self):
-        path, _ = QFileDialog.getSaveFileName()
-        torch.save(self.__model, path)
+        path, _ = QFileDialog.getSaveFileName(self.main_window)
+
+        if path != "":
+            torch.save(self.__model, path)
 
     def load_model(self):
-        path, _ = QFileDialog.getOpenFileName()
-        self.__model = torch.load(path)
+        path, _ = QFileDialog.getOpenFileName(self.main_window)
+        if path != "":
+            self.__model = torch.load(path)
+        
 
     def get_model(self) -> Module:
         return self.__model
@@ -72,7 +77,7 @@ class torchModuleHandler():
 
     def fit(self,epochs : int, loss_function : str, optimizer : str):
         
-
+        self.dataset = CustomDataset(self.__dataframe)
         loss_function  = self.loss_dict[loss_function]
         optimizer = self.optimizers_dict[optimizer]
         data_loader = DataLoader(self.dataset)
@@ -100,29 +105,30 @@ class torchModuleHandler():
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
-    model_1 = SimpleNN(1,3,1)
+    model_1 = SimpleNN(2,10,1)
 
 
     test_data = torch.randn(1, 10)
 
     data = {
-    'feature1': [1, 2, 3, 4, 5],
-    'feature2': [6, 7, 8, 9, 10],
-    'target': [0, 1, 0, 1, 0]
+    'feature1': [1, 2, 3, 4, 5,6,7,8,9,10],
+    'feature2': [0, 1, 0, 1, 0,1,0,1,0,1],
+    'target': [0, 1, 0, 1, 0,1,0,1,0,1]
     }   
     
     df = DataSetFrame(pd.DataFrame(data))
+    df.mark_as_x_column(0)
+    df.mark_as_x_column(1)
+    df.mark_as_y_column(1)
     a = DataSetFrame()
     modelHandler = torchModuleHandler(df, model_1)
-   # modelHandler.save_model()
-    #modelHandler.load_model()
-    modelHandler.fit(100, "mean_squared_error", "sgd")
+    modelHandler.fit(100, "mean_absolute_error", "adam")
 
-    print("Ergebnis: " , modelHandler.predict(torch.FloatTensor([1])))
-    print("Ergebnis: " , modelHandler.predict(torch.FloatTensor([2])))
-    print("Ergebnis: " , modelHandler.predict(torch.FloatTensor([3])))
-    print("Ergebnis: " , modelHandler.predict(torch.FloatTensor([4])))
-    print("Ergebnis: " , modelHandler.predict(torch.FloatTensor([5])))
-    print("Ergebnis: " , modelHandler.predict(torch.FloatTensor([17])))
+    print("Ergebnis: " , modelHandler.predict(torch.FloatTensor([1,0])))
+    print("Ergebnis: " , modelHandler.predict(torch.FloatTensor([2,1])))
+    print("Ergebnis: " , modelHandler.predict(torch.FloatTensor([3,0])))
+    print("Ergebnis: " , modelHandler.predict(torch.FloatTensor([4,1])))
+    print("Ergebnis: " , modelHandler.predict(torch.FloatTensor([5,0])))
+    print("Ergebnis: " , modelHandler.predict(torch.FloatTensor([160,1])))
 
     sys.exit(app)

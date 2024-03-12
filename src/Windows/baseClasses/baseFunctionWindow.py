@@ -155,21 +155,22 @@ class BaseFunctionWindow(QtWidgets.QWidget):
         if self.function is None:
             raise NotImplementedError("Function not implemented!")
 
-        x, y = self.main_data_set.get_raw_data_split()
-        params = self.get_parameters()
+        # x, y = self.main_data_set.get_raw_data_split()
+        params : dict = self.get_parameters()
 
         args = inspect.getfullargspec(self.function).args
         erstes_argument = args[0]
         if len(args) >= 2:
             zweites_argument = args[1]
 
-        params[erstes_argument] = x
+        # params[erstes_argument] = x
 
-        if self.has_2_datasets:
-            params[zweites_argument] = y
-            self.result = self.function(**params)
-        else:
-            self.result = self.function(**params)
+        # if self.has_2_datasets:
+        #     params[zweites_argument] = y
+        #     self.result = self.function(**params)
+        # else:
+        #     self.result = self.function(**params)
+        self.result = self.function(**params)
 
         self.show_result_window()
 

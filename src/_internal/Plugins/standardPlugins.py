@@ -105,3 +105,28 @@ class TestBaseColumnResultWindow(BaseColumnResultWindow):
         self.data_viewer.update()
 
         return 10,20
+    
+
+class SelectXValues(BaseSimplePlugin):
+
+    def __init__(self, main_window: MainWindow):
+        super().__init__(main_window)
+        self.set_name("mark as x data")
+        self.function = self.func
+
+
+    def func(self, col_idx):
+        self.main_data_set.mark_as_x_column(col_idx)
+        self.data_viewer.set_column_background_color(col_idx, "red")
+
+class SelectYValues(BaseSimplePlugin):
+
+    def __init__(self, main_window: MainWindow):
+        super().__init__(main_window)
+        self.set_name("mark as y data")
+        self.function = self.func
+
+
+    def func(self, col_idx):
+        self.main_data_set.mark_as_y_column(col_idx)
+        self.data_viewer.set_column_background_color(col_idx, "blue")

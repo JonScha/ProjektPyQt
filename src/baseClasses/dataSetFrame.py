@@ -203,9 +203,7 @@ class DataSetFrame:
         return self.main_frame[self.y_marked]
         
     def binare_transform(self, column_idx : int, threshold : float):
-
         column = self.get_column_name_by_idx(column_idx)
-
         self.main_frame[column] = binarize(self.main_frame[column], threshold, copy=False)
 
     def import_file(self):
