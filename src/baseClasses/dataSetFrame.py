@@ -72,9 +72,13 @@ class DataSetFrame:
 
 
     def mark_as_x_column(self, column_idx : int):
+        if column_idx in self.y_marked:
+            self.y_marked.remove(column_idx)
         self.x_marked.append(self.get_column_name_by_idx(column_idx))
     
     def mark_as_y_column(self, column_idx : int):
+        if column_idx in self.x_marked:
+            self.x_marked.remove(column_idx)
         self.y_marked.append(self.get_column_name_by_idx(column_idx))
 
     def mark_x_data(self, list_of_x_values : List[str] ) -> None:
