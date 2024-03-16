@@ -17,9 +17,8 @@ class TorchMenu(BaseMenu):
 
         self.fit_window = main_window.torch_fit_window
 
-        moudleHandler = torchModuleHandler(self.main_window,self.main_frame)
+        moduleHandler = torchModuleHandler(self.main_window)
 
         self.add_action_to_main_menu("print", lambda : print("Hello world!"))
         self.add_action_to_main_menu("fit", self.fit_window.show)
-        self.add_action_to_main_menu("load", lambda : moudleHandler.load_model())
-        self.add_action_to_main_menu("save", lambda : moudleHandler.save_model())
+        self.add_action_to_main_menu("save", lambda : moduleHandler.save_model())

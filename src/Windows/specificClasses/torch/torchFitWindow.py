@@ -9,17 +9,16 @@ if TYPE_CHECKING:
 class torchFitWindow(BaseFunctionWindow):
 
 
-    def __init__(self, main_window: "MainWindow", has_2_datasets=False, width=700, height=550):
+    def __init__(self, main_window: "MainWindow", torchHandler, has_2_datasets=False, width=700, height=550):
         super().__init__(main_window, has_2_datasets, width, height)
 
 
-        self.torchHandler = torchModuleHandler(self.main_window, self.main_data_set)
-
+        self.torchHandler : torchModuleHandler = torchHandler
 
         self.add_entry("epochs")
-
         self.add_dropdown("loss_function", self.torchHandler.loss_dict.keys())
         self.add_dropdown("optimizer", self.torchHandler.optimizers_dict.keys())
+        self.add_button("load button", self.torchHandler.load_model)
         self.function = self.func
         self.add_function_button()
 

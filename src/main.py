@@ -1,5 +1,6 @@
 import sys
 import os
+import torch
 import pathlib
 import matplotlib.pyplot as plt
 from PySide6.QtWidgets import QApplication, QMainWindow, QGridLayout
@@ -7,6 +8,7 @@ from Menus.specificMenus import FileMenu, SQLMenu, DataScienceMenu, TorchMenu
 from Windows.specificClasses.sql import LoginWindow, SQLInputWindow
 from Windows.specificClasses.data import DataFrameTable
 from _internal.Plugins.pluginManager import PluginManager
+from baseClasses.pytorchBaseclass import SimpleNN, torchModuleHandler
 from baseClasses import DatabaseConnector
 from Windows.specificClasses import torchFitWindow
 from seaborn import heatmap
@@ -24,7 +26,7 @@ class MainWindow(QMainWindow):
         self.grid_layout = QGridLayout()
         self.database_conn = DatabaseConnector()
 
-        data = [0,1,2,3]
+        data = {"x" : [0,1,2,3], "y" : [3,4,5,6]}
         df = pd.DataFrame(data)
         self.data_frame = DataSetFrame()
         self.data_frame.set_main_frame(df)
@@ -34,9 +36,10 @@ class MainWindow(QMainWindow):
         self.file_menu = FileMenu(self)
         self.setCentralWidget(self.data_viewer)
         self.layout().setContentsMargins(0,0,0,0)
+        self.torchHandler = torchModuleHandler(self)
         
-        self.torch_fit_window = torchFitWindow(self)
-
+        self.torch_fit_window = torchFitWindow(self, self.torchHandler)
+        
         self.sql_menu = SQLMenu(self)
         self.data_science_menu = DataScienceMenu(self)
         self.torch_menu = TorchMenu(self)

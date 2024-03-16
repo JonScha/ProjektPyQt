@@ -22,19 +22,25 @@ class SimpleNN(nn.Module):
 
     def forward(self, x):
         x = F.relu(self.fc1(x))  # ReLU activation function for the first layer
-        x = F.sigmoid(self.fc2(x))          # Output layer without activation function
+        x = self.fc2(x)          # Output layer without activation function
         return x
+    
+    def save(self):
+        torch.save(self.state_dict, "hans1")
+    
+    def load(self):
+        torch.load()
 
 
 class torchModuleHandler():
 
 
-    def __init__(self,main_window, datasetframe : DataSetFrame, model : Module = torch.nn.Module()) -> None:
+    def __init__(self,main_window : "MainWindow") -> None:
 
-        self.main_window = main_window
-        self.__model : Module = model
+        self.main_window : "MainWindow" = main_window   
+        self.__model : nn.Module = None
 
-        self.__dataframe = datasetframe
+        self.__dataframe = self.main_window.data_frame
 
 
         self.loss_dict = {
@@ -57,7 +63,6 @@ class torchModuleHandler():
             # Weitere Optimierer können hier hinzugefügt werden
         }
 
-
     def save_model(self):
         path, _ = QFileDialog.getSaveFileName(self.main_window)
 
@@ -67,7 +72,14 @@ class torchModuleHandler():
     def load_model(self):
         path, _ = QFileDialog.getOpenFileName(self.main_window)
         if path != "":
+            
+           
             self.__model = torch.load(path)
+            self.__model.eval()
+
+            #self.fit(10,"mean_absolute_error", "adam")
+            
+            # print(self.__model.parameters())
         
 
     def get_model(self) -> Module:
@@ -76,14 +88,19 @@ class torchModuleHandler():
 
 
     def fit(self,epochs : int, loss_function : str, optimizer : str):
-        
         self.dataset = CustomDataset(self.__dataframe)
         loss_function  = self.loss_dict[loss_function]
-        optimizer = self.optimizers_dict[optimizer]
+        optimizer : torch.optim.Optimizer = self.optimizers_dict[optimizer]
         data_loader = DataLoader(self.dataset)
+        model = self.get_model()
+        opt : torch.optim.Optimizer = optimizer(model.parameters(), lr = 0.01)
 
-        opt : torch.optim.Optimizer = optimizer(self.__model.parameters(), lr = 0.01)
 
+        if not loss_function:
+            raise ValueError(f"Loss function '{loss_function}' not found.")
+        if not optimizer:
+            raise ValueError(f"Optimizer '{optimizer}' not found.")
+        
         for epoch in range(epochs):
             for i, data in enumerate(data_loader):
 

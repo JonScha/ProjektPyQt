@@ -163,16 +163,8 @@ class BaseFunctionWindow(QtWidgets.QWidget):
         if len(args) >= 2:
             zweites_argument = args[1]
 
-        # params[erstes_argument] = x
-
-        # if self.has_2_datasets:
-        #     params[zweites_argument] = y
-        #     self.result = self.function(**params)
-        # else:
-        #     self.result = self.function(**params)
+        print("Params: ", params)
         self.result = self.function(**params)
-
-        self.show_result_window()
 
     def show_result_window(self):
         self.win = ResultWindow(self, results=self.result, results_names=self.result_names)
