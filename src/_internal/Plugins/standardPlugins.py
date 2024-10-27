@@ -8,6 +8,7 @@ from main import MainWindow
 
 """
 
+
 class testWindow(BaseColumnWindow):
 
     def __init__(self, main_window, width=700, height=550):
@@ -30,20 +31,21 @@ class testWindow(BaseColumnWindow):
         
 
 
-class testWindow2(BaseSimplePlugin):
+# class testWindow2(BaseSimplePlugin):
 
 
-    def __init__(self, main_window):
-        super().__init__(main_window)
-        self.function = self.func
+#     def __init__(self, main_window):
+#         super().__init__(main_window)
+#         self.function = self.func
 
-    def func(self,col_idx):
+#     def func(self,col_idx):
 
-        print("Funktion ausgelöst!!! SimplePlugin")
-        column_name = self.main_data_set.get_column_name_by_idx(col_idx)
-        self.main_data_set.get_main_frame()[column_name] = self.main_data_set.get_main_frame()[column_name] +3
+#         print("Funktion ausgelöst!!! SimplePlugin")
+#         self.set_name("hans")
+#         column_name = self.main_data_set.get_column_name_by_idx(col_idx)
+#         self.main_data_set.get_main_frame()[column_name] = self.main_data_set.get_main_frame()[column_name] +3
 
-        self.data_viewer.update()
+#         self.data_viewer.update()
 
         
 
@@ -73,8 +75,7 @@ class FilterTreshhold(BaseColumnWindow):
 
         self.function = self.func
         self.set_name("filter_threshold")
-        self.add_entry("threshold")
-
+        self.add_entry("threshold", "filter all values which are > threshold")
         self.add_ok_button()
 
     
@@ -104,3 +105,28 @@ class TestBaseColumnResultWindow(BaseColumnResultWindow):
         self.data_viewer.update()
 
         return 10,20
+    
+
+class SelectXValues(BaseSimplePlugin):
+
+    def __init__(self, main_window: MainWindow):
+        super().__init__(main_window)
+        self.set_name("mark as x data")
+        self.function = self.func
+
+
+    def func(self, col_idx):
+        self.main_data_set.mark_as_x_column(col_idx)
+        self.data_viewer.set_column_background_color(col_idx, "red")
+
+class SelectYValues(BaseSimplePlugin):
+
+    def __init__(self, main_window: MainWindow):
+        super().__init__(main_window)
+        self.set_name("mark as y data")
+        self.function = self.func
+
+
+    def func(self, col_idx):
+        self.main_data_set.mark_as_y_column(col_idx)
+        self.data_viewer.set_column_background_color(col_idx, "blue")

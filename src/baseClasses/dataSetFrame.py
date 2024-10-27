@@ -72,9 +72,13 @@ class DataSetFrame:
 
 
     def mark_as_x_column(self, column_idx : int):
+        if column_idx in self.y_marked:
+            self.y_marked.remove(column_idx)
         self.x_marked.append(self.get_column_name_by_idx(column_idx))
     
     def mark_as_y_column(self, column_idx : int):
+        if column_idx in self.x_marked:
+            self.x_marked.remove(column_idx)
         self.y_marked.append(self.get_column_name_by_idx(column_idx))
 
     def mark_x_data(self, list_of_x_values : List[str] ) -> None:
@@ -185,14 +189,17 @@ class DataSetFrame:
     def reset_data_frame(self, column_idx : int):
         self.main_frame = self.backup_frame
 
-    def save_to_file(self, file_path : str):
+    def save_to_file(self):
         
-        filename, ending = os.path.splitext(file_path)
+        path, _ = QFileDialog.getSaveFileName()
+        filename, ending = os.path.splitext(path)
 
         if ending == ".csv":
-            self.main_frame.to_csv(file_path, index=False)
+            self.main_frame.to_csv(path, index=False)
         elif ending == ".xlsx":
-            self.main_frame.to_excel(file_path, index=False)
+            self.main_frame.to_excel(path, index=False)
+        elif ending == "":
+            return
         else:
             raise ValueError(f"given file type \"{ending}\" not supported!")
         
@@ -200,9 +207,7 @@ class DataSetFrame:
         return self.main_frame[self.y_marked]
         
     def binare_transform(self, column_idx : int, threshold : float):
-
         column = self.get_column_name_by_idx(column_idx)
-
         self.main_frame[column] = binarize(self.main_frame[column], threshold, copy=False)
 
     def import_file(self):

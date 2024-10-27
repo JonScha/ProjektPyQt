@@ -11,6 +11,10 @@ import inspect
 if TYPE_CHECKING:
     from main import MainWindow
 class BaseFunctionWindow(QtWidgets.QWidget):
+    """
+        Baseclass to implement features which are apllied on the whole dataset e.g. training 
+        NN etc.
+    """
     def __init__(self, main_window : "MainWindow",has_2_datasets=False, width=700, height=550):
         super().__init__()
         self.main_window = main_window
@@ -155,23 +159,16 @@ class BaseFunctionWindow(QtWidgets.QWidget):
         if self.function is None:
             raise NotImplementedError("Function not implemented!")
 
-        x, y = self.main_data_set.get_raw_data_split()
-        params = self.get_parameters()
+        # x, y = self.main_data_set.get_raw_data_split()
+        params : dict = self.get_parameters()
 
         args = inspect.getfullargspec(self.function).args
         erstes_argument = args[0]
         if len(args) >= 2:
             zweites_argument = args[1]
 
-        params[erstes_argument] = x
-
-        if self.has_2_datasets:
-            params[zweites_argument] = y
-            self.result = self.function(**params)
-        else:
-            self.result = self.function(**params)
-
-        self.show_result_window()
+        print("Params: ", params)
+        self.result = self.function(**params)
 
     def show_result_window(self):
         self.win = ResultWindow(self, results=self.result, results_names=self.result_names)
