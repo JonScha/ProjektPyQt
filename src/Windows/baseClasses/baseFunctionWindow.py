@@ -11,6 +11,10 @@ import inspect
 if TYPE_CHECKING:
     from main import MainWindow
 class BaseFunctionWindow(QtWidgets.QWidget):
+    """
+        Baseclass to implement features which are apllied on the whole dataset e.g. training 
+        NN etc.
+    """
     def __init__(self, main_window : "MainWindow",has_2_datasets=False, width=700, height=550):
         super().__init__()
         self.main_window = main_window

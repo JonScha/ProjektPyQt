@@ -21,7 +21,7 @@ class MainWindow(QMainWindow):
 
         self.width = 800
         self.height = 650
-        self.setWindowTitle("Ihr Hauptfenster")
+        self.setWindowTitle("Main Window")
 
         self.grid_layout = QGridLayout()
         self.database_conn = DatabaseConnector()

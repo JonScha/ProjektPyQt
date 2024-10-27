@@ -7,6 +7,9 @@ if TYPE_CHECKING:
 
 
 class torchFitWindow(BaseFunctionWindow):
+    """
+        Class which handles parameters for the "fit" Method of a torchModuleHandler
+    """
 
 
     def __init__(self, main_window: "MainWindow", torchHandler, has_2_datasets=False, width=700, height=550):
