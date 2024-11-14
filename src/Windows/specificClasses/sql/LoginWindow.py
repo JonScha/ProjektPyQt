@@ -70,10 +70,13 @@ class LoginWindow(QtWidgets.QWidget):
         ip, db_name, user_name, password = self.__get_login_data()
 
         if any(value != "" for value in [ip, db_name, user_name, password]):
-            try:
-                self.main_data_base_connector.connect_any_dialect(ip, db_name, user_name, password)
-                print("Connection successful!!!!!")
-            except BaseException as e:
-                print("Fehler!!!!!")
+            
+            if (self.main_data_base_connector.connect_any_dialect(ip, db_name, user_name, password)):
 
-                print(str(e))
+                print("Connection successful!") 
+            else:
+                print("Connection failed!!!")
+                
+                
+        
+            

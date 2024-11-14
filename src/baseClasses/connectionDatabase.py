@@ -122,7 +122,7 @@ class DatabaseConnector():
     def is_connected(self):
         return self.connected_bool
     
-    def connect_any_dialect(self, host_address, database_name, user_name, password) -> None:
+    def connect_any_dialect(self, host_address, database_name, user_name, password) -> bool:
         """
             Starts connection to the Database        
         """
@@ -140,9 +140,12 @@ class DatabaseConnector():
                 self.cursor =  self.engine.connect()
                 self.connected_bool = True
                 print("Connection succesfull with a " + dialect + "database")
-                break
+
+                return True
             except BaseException as error:
-                # print("Error: %s" % error)
-                # print("Connection failed!")
-                pass
+                print("Error: %s" % error)
+                print("Connection failed!")
+                
+                return False
+
         
