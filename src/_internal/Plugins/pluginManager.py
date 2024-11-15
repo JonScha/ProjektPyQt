@@ -55,7 +55,7 @@ class PluginManager:
                         object.initialize()
 
             except Exception as e:
-                print(f"error whiel loading module: {modul_name} from file {dateipfad}: {str(e)}")
+                print(f"error while loading module: {modul_name} from file {dateipfad}: {str(e)}")
 
 
     def __check_plugin_type(self, cls):

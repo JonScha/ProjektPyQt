@@ -73,6 +73,7 @@ class MainWindow(QMainWindow):
     def load_plugins(self):
         current_path = pathlib.Path(__file__).parent.resolve()
         print(current_path)
+
         handler = PluginManager(str(current_path)+"/_internal/Plugins", self)
         handler.lade_python_dateien()
 
