@@ -58,7 +58,6 @@ class PluginManager:
                 print(f"error whiel loading module: {modul_name} from file {dateipfad}: {str(e)}")
 
 
-
     def __check_plugin_type(self, cls):
         """
             returns true if the a class is a valid plugin type

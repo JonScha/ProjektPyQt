@@ -16,8 +16,12 @@ class LoginWindow(QtWidgets.QWidget):
         self.user_name = ""
         self.password = ""
         self.database = ""
+        self.database_type = ""
+        self.port_number = 0
 
-        self.debug_flag = False
+        self.database_dialects = ["mysql", "oracle", "postgresql", "mssql", ]
+
+        self.debug_flag = True
 
         self.__create_ui()
 
@@ -27,6 +31,9 @@ class LoginWindow(QtWidgets.QWidget):
 
         self.ip_address_entry = QtWidgets.QLineEdit(self)
         self.ip_address_entry.setPlaceholderText("IP Address")
+
+        self.port_entry = QtWidgets.QLineEdit(self)
+        self.port_entry.setPlaceholderText("port number")
 
         self.user_name_entry = QtWidgets.QLineEdit(self)
         self.user_name_entry.setPlaceholderText("User Name")
@@ -38,12 +45,17 @@ class LoginWindow(QtWidgets.QWidget):
         self.database_entry = QtWidgets.QLineEdit(self)
         self.database_entry.setPlaceholderText("Database Name")
 
+        self.database_type_dropdown = QtWidgets.QComboBox(self)
+        self.database_type_dropdown.addItems(self.database_dialects)
+
         self.button = QtWidgets.QPushButton("Connect", self)
         self.button.clicked.connect(self.__button_function)
 
         layout = QtWidgets.QVBoxLayout()
         
+        layout.addWidget(self.database_type_dropdown)
         layout.addWidget(self.ip_address_entry)
+        layout.addWidget(self.port_entry)
         layout.addWidget(self.user_name_entry)
         layout.addWidget(self.password_entry)
         layout.addWidget(self.database_entry)
@@ -56,6 +68,11 @@ class LoginWindow(QtWidgets.QWidget):
         self.password = self.password_entry.text()
         self.database = self.database_entry.text()
 
+        self.port_number = int(self.port_entry.text())
+
+        self.database_type = self.database_type_dropdown.currentText()
+
+
         self.__login_to_database()
 
         self.close()
@@ -64,14 +81,22 @@ class LoginWindow(QtWidgets.QWidget):
         return self
 
     def __get_login_data(self):
-        return self.ip_address,self.database ,self.user_name, self.password
+        return self.database_type, self.port_number, self.ip_address,self.database ,self.user_name, self.password
 
     def __login_to_database(self):
-        ip, db_name, user_name, password = self.__get_login_data()
+        db_type, port, ip, db_name, user_name, password = self.__get_login_data()
+
+        if self.debug_flag:
+            db_type = "postgresql"
+            user_name = "postgres"
+            db_name = "postgres"
+            password = "hans"
+            port = "5432"
+
 
         if any(value != "" for value in [ip, db_name, user_name, password]):
             
-            if (self.main_data_base_connector.connect_any_dialect(ip, db_name, user_name, password)):
+            if (self.main_data_base_connector.connect(db_type, port, ip, db_name, user_name, password)):
 
                 print("Connection successful!") 
             else:

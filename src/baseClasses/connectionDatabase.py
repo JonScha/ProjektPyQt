@@ -2,7 +2,7 @@ import pandas as pd
 import psycopg2
 import sqlalchemy
 import asyncio
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, URL, inspect
 from typing import List, AnyStr
 
 class DatabaseConnector():
@@ -51,8 +51,9 @@ class DatabaseConnector():
         self.postgres_port = "5342"
         self.cursor, self.engine = None,None
         self.connected_bool = False
+        self.debug = True
         
-    def __connect_postgres(self, host_address, database_name, user_name, password) -> None:
+    def connect(self, db_type, port, host_address, database_name, user_name, password) -> bool:
         """
             Starts connection to the Database        
         """
@@ -60,16 +61,27 @@ class DatabaseConnector():
         self.database_name = database_name
         self.user_name = user_name
         self.password = password
+        self.port = port
 
-        url = "postgresql+psycopg2://"+ self.user_name +":"+self.password + "@" + self.host_adress +"/"+ self.database_name
+
+        url = URL.create(db_type, username= self.user_name, 
+                  password= self.password, 
+                  host= self.host_adress, 
+                  database = self.database_name, 
+                  port=self.port)
+
         print("Conecting to database....")
         try:
             self.engine = create_engine(url, echo = False)
-            self.connected_bool = True
+            self.cursor = self.engine.connect()
+            inspector = inspect(self.engine)
+            print("Tables: ", inspector.get_table_names())
+
+            return True
         except (Exception, psycopg2.DatabaseError) as error:
             print("Error: %s" % error)
             print("Connection failed!")
-        self.cursor = self.engine.connect()
+            return False
         
     def postgresql_to_dataframe(self,select_query, column_names : List[str] = []) -> pd.DataFrame:
         """
@@ -122,6 +134,7 @@ class DatabaseConnector():
     def is_connected(self):
         return self.connected_bool
     
+    # deprecated
     def connect_any_dialect(self, host_address, database_name, user_name, password) -> bool:
         """
             Starts connection to the Database        
