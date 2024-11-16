@@ -16,7 +16,7 @@ rem Aktiviere die conda-Umgebung
 call %conda_activate% "py310"
 
 rem Führe PyInstaller aus
-pyinstaller --onedir --hidden-import _internal/Plugins.standardPlugins.py --add-data ./src/_internal/Plugins:./Plugins --add-data ./src/_internal/standardPlugins.py:./Plugins %1
+pyinstaller --onedir --hidden-import /Plugins.standardPlugins.py --add-data ./src/Plugins:./Plugins --add-data ./src/standardPlugins.py:./Plugins %1
 
 rem Weitere Befehle hier...
 

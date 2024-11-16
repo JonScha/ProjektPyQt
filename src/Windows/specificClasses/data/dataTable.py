@@ -1,5 +1,5 @@
 import sys
-from PySide6.QtWidgets import QApplication, QTableWidget, QTableWidgetItem, QMenu, QWidget
+from PySide6.QtWidgets import QApplication, QTableWidget, QTableWidgetItem, QMenu, QWidget, QHeaderView, QAbstractItemView
 from PySide6.QtGui import QColor, QBrush, QAction, QMouseEvent
 from PySide6.QtCore import QPoint
 from typing import TYPE_CHECKING, Callable
@@ -27,8 +27,6 @@ class DataFrameTable(QTableWidget):
             sets the width of all columns to 200
         
 
-
-
     """
     def __init__(self, main_window : "MainWindow"):
         super().__init__()
@@ -37,12 +35,19 @@ class DataFrameTable(QTableWidget):
         self.main_frame : pd.DataFrame = main_window.data_frame.get_main_frame()
         self.setRowCount(self.main_frame.shape[0])
         self.setColumnCount(self.main_frame.shape[1])
+        
+        self.horizontal_header = self.horizontalHeader()
+
+        self.vertial_header = self.verticalHeader()       
+        
+        self.setEditTriggers(QAbstractItemView.NoEditTriggers)
+
         self.__set_width_columns()
+        self.__set_vertial_fill()
         self.current_column = 1
         self.context_menu = QMenu(self)
         self.name_action_list : list = []
         self.menu_check = False
-        #self.add_simple_plugin("hello", [ lambda col : self.set_column_background_color(col, "red")])
 
         # Sets first init dataFrame
         for row in range(self.main_frame.shape[0]):
@@ -64,11 +69,12 @@ class DataFrameTable(QTableWidget):
 
     def __set_width_columns(self):
         for col in range(self.main_frame.shape[1]):
-            self.setColumnWidth(col, 200)
+            self.horizontal_header.setSectionResizeMode(col, QHeaderView.ResizeMode.Stretch)
+            self.setColumnWidth(col, 500)
 
     def update(self):
         """
-            Updates the values in the table (resets the tablr with new values)
+            Updates the values in the table (resets the table with new values)
         """
         self.main_frame : pd.DataFrame = self.main_window.data_frame.get_main_frame()
         self.setRowCount(self.main_frame.shape[0])
@@ -79,6 +85,8 @@ class DataFrameTable(QTableWidget):
                 item = QTableWidgetItem(str(self.main_frame.iat[row, col]))
                 self.setItem(row, col, item)
 
+
+        self.__set_width_columns()
 
     def add_simple_plugin(self, plugin : "BaseSimplePlugin"):
             """
@@ -98,7 +106,17 @@ class DataFrameTable(QTableWidget):
             act.triggered.connect(lambda : window.show(self.current_column))
             self.context_menu.addAction(act)
 
-    # overwritten-fuction from QTableWidget
+    def __set_vertial_fill(self):
+
+        
+        #self.horizontal_header.setSectionResizeMode(0, Q)
+        #self.horizontal_header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
+        #self.horizontal_header.setSectionResizeMode(2, QHeaderView.ResizeMode.Stretch)
+        #self.horizontal_header.setSectionResizeMode(3, QHeaderView.ResizeMode.Stretch)
+        #self.horizontal_header.setSectionResizeMode(4, QHeaderView.ResizeMode.Stretch)
+        return 
+
+    # overwritten-function from QTableWidget
     def contextMenuEvent(self, event : QMouseEvent) -> None:
         coordinates : QPoint = event.pos()
         x, y = coordinates.toTuple()

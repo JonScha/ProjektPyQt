@@ -7,7 +7,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QGridLayout
 from Menus.specificMenus import FileMenu, SQLMenu, DataScienceMenu, TorchMenu
 from Windows.specificClasses.sql import LoginWindow, SQLInputWindow
 from Windows.specificClasses.data import DataFrameTable
-from _internal.Plugins.pluginManager import PluginManager
+from Plugins.pluginManager import PluginManager
 from baseClasses.pytorchBaseclass import SimpleNN, torchModuleHandler
 from baseClasses import DatabaseConnector
 from Windows.specificClasses import torchFitWindow
@@ -74,7 +74,7 @@ class MainWindow(QMainWindow):
         current_path = pathlib.Path(__file__).parent.resolve()
         print(current_path)
 
-        handler = PluginManager(str(current_path)+"/_internal/Plugins", self)
+        handler = PluginManager(str(current_path)+"/Plugins", self)
         handler.lade_python_dateien()
 
 
