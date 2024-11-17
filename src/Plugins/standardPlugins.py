@@ -29,27 +29,6 @@ class testWindow(BaseColumnWindow):
 
         self.data_viewer.update()
         
-
-
-# class testWindow2(BaseSimplePlugin):
-
-
-#     def __init__(self, main_window):
-#         super().__init__(main_window)
-#         self.function = self.func
-
-#     def func(self,col_idx):
-
-#         print("Funktion ausgelöst!!! SimplePlugin")
-#         self.set_name("hans")
-#         column_name = self.main_data_set.get_column_name_by_idx(col_idx)
-#         self.main_data_set.get_main_frame()[column_name] = self.main_data_set.get_main_frame()[column_name] +3
-
-#         self.data_viewer.update()
-
-        
-
-
 class Binarize(BaseColumnWindow):
 
 
@@ -130,3 +109,31 @@ class SelectYValues(BaseSimplePlugin):
     def func(self, col_idx):
         self.main_data_set.mark_as_y_column(col_idx)
         self.data_viewer.set_column_background_color(col_idx, "blue")
+
+
+
+class DeSelectYValues(BaseSimplePlugin):
+
+    def __init__(self, main_window: MainWindow):
+        super().__init__(main_window)
+        self.set_name("demark as y data")
+        self.function = self.func
+
+
+    def func(self, col_idx):
+        marked = self.main_data_set.unmark_as_y_column(col_idx)
+        if marked:
+            self.data_viewer.set_column_background_color(col_idx, "white")
+
+class DeSelectXValues(BaseSimplePlugin):
+
+    def __init__(self, main_window: MainWindow):
+        super().__init__(main_window)
+        self.set_name("demark as x data")
+        self.function = self.func
+
+
+    def func(self, col_idx):
+        marked = self.main_data_set.unmark_as_x_column(col_idx)
+        if marked:
+            self.data_viewer.set_column_background_color(col_idx, "white")

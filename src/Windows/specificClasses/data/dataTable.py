@@ -43,7 +43,6 @@ class DataFrameTable(QTableWidget):
         self.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         self.__set_width_columns()
-        self.__set_vertial_fill()
         self.current_column = 1
         self.context_menu = QMenu(self)
         self.name_action_list : list = []
@@ -105,16 +104,6 @@ class DataFrameTable(QTableWidget):
             act = QAction(window.name, self)
             act.triggered.connect(lambda : window.show(self.current_column))
             self.context_menu.addAction(act)
-
-    def __set_vertial_fill(self):
-
-        
-        #self.horizontal_header.setSectionResizeMode(0, Q)
-        #self.horizontal_header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
-        #self.horizontal_header.setSectionResizeMode(2, QHeaderView.ResizeMode.Stretch)
-        #self.horizontal_header.setSectionResizeMode(3, QHeaderView.ResizeMode.Stretch)
-        #self.horizontal_header.setSectionResizeMode(4, QHeaderView.ResizeMode.Stretch)
-        return 
 
     # overwritten-function from QTableWidget
     def contextMenuEvent(self, event : QMouseEvent) -> None:

@@ -81,6 +81,8 @@ class DataSetFrame:
             self.x_marked.remove(column_idx)
         self.y_marked.append(self.get_column_name_by_idx(column_idx))
 
+        print(self.y_marked)
+
     def mark_x_data(self, list_of_x_values : List[str] ) -> None:
         """
             marks all columns as input for the NN
@@ -227,9 +229,22 @@ class DataSetFrame:
         else:
             raise ValueError(f"given file type \"{ending}\" not supported!")
 
+    def unmark_as_x_column(self, column_idx : int) -> bool:
+        column_name = self.get_column_name_by_idx(column_idx)
 
+        if column_name in self.x_marked:
+            self.x_marked.remove(column_name)
+            return True
+        return False
+    
+    def unmark_as_y_column(self, column_idx : int) -> bool:
 
+        column_name = self.get_column_name_by_idx(column_idx)
 
+        if column_name in self.y_marked:
+            self.y_marked.remove(column_name)
+            return True
+        return False
 
 # df = DataSetFrame()
 # df.import_csv("I:/ProjektPyQt/src/TestDateien/data.csv")
